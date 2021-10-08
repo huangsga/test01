@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png"/>
+    <title>增删改查</title>
+    <link href="/assets/css/icons.css" rel="stylesheet"/>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/responsive.css" rel="stylesheet"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+<!--Start left side Menu-->
+<div class="left-side sticky-left-side">
+    <!--logo-->
+    <div class="logo">
+        <a href="index.html"><img src="/assets/images/logo.png" alt=""/></a>
+    </div>
+
+    <div class="logo-icon text-center">
+        <a href="index.html"
+        ><img src="/assets/images/logo-icon.png" alt=""
+        /></a>
+    </div>
+    <!--logo-->
+
+    <div class="left-side-inner">
+        <!--Sidebar nav-->
+        <div class="nano" th:replace="menu::mymenu">
+        </div>
+        <!--End sidebar nav-->
+    </div>
+</div>
+<!--End left side menu-->
+
+<!-- main content start-->
+<div class="main-content">
+    <!-- header section start-->
+    <div class="header-section">
+        <div th:replace="menu::mytopbar">
+        </div>
+    </div>
+    <!-- header section end-->
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+        <!--Start Page Title-->
+        <div class="page-title-box">
+            <h4 class="page-title">Table</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Table</a>
+                </li>
+                <li class="active">Responsive Table</li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+        <!--End Page Title-->
+
+        <!-- Start responsive Table-->
+        <div class="col-md-12">
+            <div class="white-box">
+                <form class="form-inline" action="/event/abc" method="post">
+                    <div>
+                        <input type="text" th:value="${pub_time}" name="pub_time"
+                               id="exampleInputPassword3" placeholder="时间" class="form-control">
+                        <button type="submit" class="btn btn-primary">查询</button>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>热点</th>
+                            <th>事件标题</th>
+
+                            <th>发布时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="ViewEventData:${eventdata}">
+                            <td th:text="${ViewEventData.event_id}"><b>1</b></td>
+                            <td th:text="${ViewEventData.event_title}"><b>热点</b></td>
+                            <td th:text="${ViewEventData.event_abstract}"><b>事件标题</b></td>
+
+                            <!--<td >
+                               <img th:src="'http://localhost:8080/images/'+${ViewEventData.Event_img_url}" width="80px" hidden="80px" />
+
+                            </td>-->
+<!--                            <td th:text="${ViewEventData.click_num}"><b>点击数</b></td>-->
+<!--                            <td th:text="${ViewEventData.share_num}"><b>分享数</b></td>-->
+<!--                            <td th:text="${ViewEventData.link}"><b>链接</b></td>-->
+                            <td th:text="${ViewEventData.pub_time}"><b>发布时间</b></td>
+                            <td>
+                                <a th:href="@{'EDdetails/'+${ViewEventData.event_id}}">详情</a> |
+                                <a th:href="@{'EDupdate/'+${ViewEventData.event_id}}">修改</a> |
+                                <a th:href="@{'delete/'+${ViewEventData.event_id}}">删除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End responsive Table-->
+    </div>
+    <!-- End Wrapper-->
+
+    <!--Start  Footer -->
+    <footer class="footer-main">
+        Copyright &copy; 2020-故事化资讯网站-No.5 All rights reserved.
+    </footer>
+    <!--End footer -->
+</div>
+<!--End main content -->
+
+<!--Begin core plugin -->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/plugins/moment/moment.js"></script>
+<script src="/assets/js/jquery.slimscroll.js "></script>
+<script src="/assets/js/jquery.nicescroll.js"></script>
+<script src="/assets/js/functions.js"></script>
+<!-- End core plugin -->
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png"/>
+    <title>身体机理信息页面！</title>
+    <link href="/assets/css/icons.css" rel="stylesheet"/>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/responsive.css" rel="stylesheet"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+<!--Start left side Menu-->
+<div class="left-side sticky-left-side">
+    <!--logo-->
+    <div class="logo">
+        <a href="index.html"><img src="/assets/images/logo.png" alt=""/></a>
+    </div>
+
+    <div class="logo-icon text-center">
+        <a href="index.html"
+        ><img src="/assets/images/logo-icon.png" alt=""
+        /></a>
+    </div>
+    <!--logo-->
+
+    <div class="left-side-inner">
+        <!--Sidebar nav-->
+        <div class="nano" th:replace="menu::mymenu">
+        </div>
+        <!--End sidebar nav-->
+    </div>
+</div>
+<!--End left side menu-->
+
+<!-- main content start-->
+<div class="main-content">
+    <!-- header section start-->
+    <div class="header-section">
+        <div th:replace="menu::mytopbar">
+        </div>
+    </div>
+    <!-- header section end-->
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+        <!--Start Page Title-->
+        <div class="page-title-box">
+            <h4 class="page-title">Form Basic</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Form</a>
+                </li>
+                <li class="active">Form Basic</li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+        <!--End Page Title-->
+
+
+        <!-- 中间内容开始 -->
+        <div class="col-md-12">
+            <div class="white-box">
+                <h2 class="header-title">身体机理信息页面！</h2>
+                <form class="form-inline" method="post" action="/body/bodylist">
+                    <div>
+                        <input type="text" th:value="${bodysystem}" name="bodysystem" class="form-control"
+                               placeholder="按照系统分类查询">
+                        <button type="submit" class="btn btn-info">查询</button>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table id="example" class="display table">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>系统名称</th>
+                            <th>疾病名称</th>
+<!--                            <th>疾病原因</th>-->
+<!--                            <th>疾病症状</th>-->
+<!--                            <th>医生建议</th>-->
+<!--                            <th>治疗方式</th>-->
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="BodyInfo:${BodyInfo.list}">
+                            <td th:text="${BodyInfo.body_id}">123</td>
+                            <td th:text="${BodyInfo.bodysystem}">123</td>
+                            <td th:text="${BodyInfo.ill_name}">123</td>
+<!--                            <td th:text="${BodyInfo.ill_reason}">123</td>-->
+<!--                            <td th:text="${BodyInfo.ill_details}">123</td>-->
+<!--                            <td th:text="${BodyInfo.ill_advice}">123</td>-->
+<!--                            <td th:text="${BodyInfo.ill_cure}">123</td>-->
+                            <td>
+                                <a th:href="@{'details/'+${BodyInfo.body_id}}">详情</a> |
+                                <a th:href="@{'bodyupdate/'+${BodyInfo.body_id}}">修改</a> |
+                                <a th:href="@{'bodydelete/'+${BodyInfo.body_id}}">删除</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+                                <a th:href="@{/body/bodylist(pageIndex=${BodyInfo.pageNum-1},pageSize=10,bodysystem=${bodysystem})}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <th:block th:each="nav:${BodyInfo.navigatepageNums}">
+                                <li th:class="${nav==BodyInfo.pageNum}?'active':''">
+                                    <a th:href="@{/body/bodylist(pageIndex=${nav},pageSize=10,bodysystem=${bodysystem})}"
+                                       th:text="${nav}">
+                                    </a>
+                                </li>
+                            </th:block>
+                            <li>
+                                <a th:href="@{/body/bodylist(pageIndex=${BodyInfo.pageNum+1},pageSize=10,bodysystem=${bodysystem})}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- 中间内容结束 -->
+    </div>
+    <footer class="footer-main">
+        Copyright &copy; 2020-故事化资讯网站-No.5 All rights reserved.
+    </footer>
+    <!--End footer -->
+</div>
+<!--End main content -->
+
+<!--Begin core plugin -->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/plugins/moment/moment.js"></script>
+<script src="/assets/js/jquery.slimscroll.js "></script>
+<script src="/assets/js/jquery.nicescroll.js"></script>
+<script src="/assets/js/functions.js"></script>
+<!-- End core plugin -->
+</body>
+</html>

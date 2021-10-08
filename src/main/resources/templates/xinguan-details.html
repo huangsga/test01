@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!--新冠相关数据展示-->
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <!-- Site Title-->
+    <title>故事化资讯网站新冠专题</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="https://echarts.apache.org/examples/vendors/jquery/jquery.js"></script>
+    <script src="https://echarts.apache.org/examples/vendors/echarts/map/js/china.js?_v_=1578305236132"></script>
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+<style>
+    .container {
+        width: 1200px;
+        margin: 0 auto;
+    }
+
+    #myEcharts {
+        width: 500px;
+        height: 400px;
+        border: solid 1px red;
+        margin: 0 auto;
+    }
+</style>
+<style type="text/css">
+    #box {
+        /* 父容器设置宽度, 并超出部分不显示 */
+        width: 500px;
+        height: 400px;
+        overflow: hidden;
+    }
+
+    #box > div {
+        /* 子容器比父容器的宽度多 17 px, 经测正好是滚动条的默认宽度 */
+        width: 517px;
+        height: 400px;
+        line-height: 30px;
+        text-align: center;
+        overflow-y: scroll;
+    }
+</style>
+
+<body>
+<!--开始-->
+<div class="page">
+    <!--导航条-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!--标题-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">新冠专题</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a th:href="@{/user/index}">首页</a></li>
+                            <li class="active">新冠专题</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-40 section-sm-30">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="offset-top-10">
+                    <h2>新冠介绍和防治建议</h2>
+                    <div
+                            class="divider divider-md divider-primary divider-sm-left"
+                    ></div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img
+                                    src="/images/tony22.gif"
+                                    alt=""
+                                    width="340"
+                                    height="400"
+                            />
+                        </div>
+                        <div class="col-md-7 col-sm-offset-1">
+                            <br><br>
+                            <div class="table-responsive">
+                                <table border="0" width="800px" style="margin-bottom:30px ">
+                                    <tbody>
+                                    <tr th:each="ViewAllInfo1:${allinfo1}">
+                                        <td th:text="${ViewAllInfo1.details}"><b>事件标题</b></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br><br>
+                            <div class="table-responsive" style="margin-top: 30px">
+                                <table border="0" width="800px">
+                                    <tbody>
+                                    <tr th:each="ViewAllInfo1:${allinfo1}">
+                                        <td th:text="${ViewAllInfo1.advice}"><b>事件标题</b></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-110 section-md-110 bg-light">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <a th:href="@{/xinguan/timeline}"><h2>新冠发展史——事件时间轴</h2></a>
+                    <div class="divider divider-md divider-primary"></div>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-xs-6 col-md-6 offset-top-45 offset-md-top-0">
+                    <div id="main" style="width: 600px;height:400px;"></div>
+                    <script type="text/javascript">
+                        var myChart = echarts.init(document.getElementById('main'));
+                        option = {
+                            title: {
+                                text: '新冠相关数据'
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross',
+                                    label: {
+                                        backgroundColor: '#6a7985'
+                                    }
+                                }
+                            },
+                            legend: {
+                                data: ['死亡人数', '治愈人数', '确诊人数']
+                            },
+                            toolbox: {
+                                feature: {
+                                    saveAsImage: {}
+                                }
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            xAxis: [
+                                {
+                                    type: 'category',
+                                    boundaryGap: false,
+                                    data: ['2019-12', '2020-1', '2020-2', '2020-3', '2020-4', '2020-5', '2020-6', '2020—7', '2020-8', '2020-9', '2020-10', '2020-11', '2020-12']
+                                }
+                            ],
+                            yAxis: [
+                                {
+                                    type: 'value'
+                                }
+                            ],
+                            series: [
+                                {
+                                    name: '死亡人数',
+                                    type: 'line',
+                                    stack: '总量',
+                                    areaStyle: {},
+                                    data: [0, 132, 620, 782, 250, 32, 6, 0, 0, 0, 0, 0, 0]
+                                },
+                                {
+                                    name: '治愈人数',
+                                    type: 'line',
+                                    stack: '总量',
+                                    areaStyle: {},
+                                    data: [0, 182, 590, 630, 132, 56, 56, 23, 6, 9, 59, 56, 250]
+                                },
+                                {
+                                    name: '确诊人数',
+                                    type: 'line',
+                                    stack: '总量',
+                                    areaStyle: {},
+                                    data: [7, 1800, 1900, 1850, 580, 260, 100, 8, 0, 59, 250, 652, 1652]
+                                },
+                            ]
+                        };
+                        myChart.setOption(option);
+                    </script>
+                </div>
+                <div class="col-xs-6 col-md-6 offset-top-45 offset-md-top-0">
+                    <div class="">
+                        <h6>累计确诊人数如下：</h6>
+                        <div id="myEcharts"></div>
+                    </div>
+                    <script>
+                        //初始化echarts实例
+                        var myChart = echarts.init(document.getElementById('myEcharts'));
+                        // 指定图表的配置项和数据
+                        option = {
+                            title: {
+                                text: '中国疫情图',
+                                left: 'center'
+                            },
+                            tooltip: {
+                                trigger: 'item'
+                            },
+                            legend: {
+                                orient: 'vertical',
+                                left: 'left',
+                                data: ['中国疫情图']
+                            },
+                            visualMap: {
+                                type: 'piecewise',
+                                pieces: [
+                                    {min: 1000, max: 1000000, label: '大于等于1000人', color: '#372a28'},
+                                    {min: 500, max: 999, label: '确诊500-999人', color: '#4e160f'},
+                                    {min: 100, max: 499, label: '确诊100-499人', color: '#974236'},
+                                    {min: 10, max: 99, label: '确诊10-99人', color: '#ee7263'},
+                                    {min: 1, max: 9, label: '确诊1-9人', color: '#f5bba7'},
+                                ],
+                                color: ['#E0022B', '#E09107', '#A3E00B']
+                            },
+                            toolbox: {
+                                show: true,
+                                orient: 'vertical',
+                                left: 'right',
+                                top: 'center',
+                                feature: {
+                                    mark: {show: true},
+                                    dataView: {show: true, readOnly: false},
+                                    restore: {show: true},
+                                    saveAsImage: {show: true}
+                                }
+                            },
+                            roamController: {
+                                show: true,
+                                left: 'right',
+                                mapTypeControl: {
+                                    'china': true
+                                }
+                            },
+                            series: [
+                                {
+                                    name: '确诊数',
+                                    type: 'map',
+                                    mapType: 'china',
+                                    roam: false,
+                                    label: {
+                                        show: true,
+                                        color: 'rgb(249, 249, 249)'
+                                    },
+                                    data: []
+                                }
+                            ]
+                        };
+                        //使用指定的配置项和数据显示图表
+                        myChart.setOption(option);
+
+                        //获取数据
+                        function getData() {
+                            $.ajax({
+                                url: "https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5",
+                                dataType: "jsonp",
+                                success: function (data) {
+                                    //  console.log(data.data)
+                                    var res = data.data || "";
+                                    res = JSON.parse(res);
+                                    var newArr = [];
+                                    if (res) {
+                                        //获取到各个省份的数据
+                                        var province = res.areaTree[0].children;
+                                        for (var i = 0; i < province.length; i++) {
+                                            var json = {
+                                                name: province[i].name,
+                                                value: province[i].total.confirm
+                                            }
+                                            newArr.push(json)
+                                        }
+                                        console.log(newArr)
+                                        console.log(JSON.stringify(newArr))
+                                        //使用指定的配置项和数据显示图表
+                                        myChart.setOption({
+                                            series: [
+                                                {
+                                                    name: '确诊数',
+                                                    type: 'map',
+                                                    mapType: 'china',
+                                                    roam: false,
+                                                    label: {
+                                                        show: true,
+                                                        color: 'rgb(249, 249, 249)'
+                                                    },
+                                                    data: newArr
+                                                }
+                                            ]
+                                        });
+                                    }
+                                }
+
+                            })
+                        }
+
+                        getData();
+                    </script>
+                </div>
+            </div>
+            <p><b>从上图可以看出，三月疫情确诊人数到达峰值，死亡和治疗人数也到达了峰值，疫情状况十分严峻，在国家强大的防疫体系下，疫情防控终于在四月得到了较为显著的成效，武汉解封，各地<br/>复工复产，形势一片大好，国内疫情防控取得较大胜利！
+                但是，由于秋冬来临以及受国外的影响，疫情有所反弹，大家还是要做好完备的防疫措施!</b></p>
+        </div>
+    </section>
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+</div>
+<div class="preloader">
+    <div th:replace="menu::myloading"></div>
+</div>
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

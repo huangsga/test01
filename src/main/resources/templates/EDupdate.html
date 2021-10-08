@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png"/>
+    <title>热点信息修改页面！</title>
+    <link href="/assets/css/icons.css" rel="stylesheet"/>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/responsive.css" rel="stylesheet"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+<!--Start left side Menu-->
+<div class="left-side sticky-left-side">
+    <!--logo-->
+    <div class="logo">
+        <a href="index.html"><img src="/assets/images/logo.png" alt=""/></a>
+    </div>
+
+    <div class="logo-icon text-center">
+        <a href="index.html"
+        ><img src="/assets/images/logo-icon.png" alt=""
+        /></a>
+    </div>
+    <!--logo-->
+
+    <div class="left-side-inner">
+        <!--Sidebar nav-->
+        <div class="nano" th:replace="menu::mymenu">
+        </div>
+        <!--End sidebar nav-->
+    </div>
+</div>
+<!--End left side menu-->
+
+<!-- main content start-->
+<div class="main-content">
+    <!-- header section start-->
+    <div class="header-section">
+        <div th:replace="menu::mytopbar">
+        </div>
+    </div>
+    <!-- header section end-->
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+        <!--Start Page Title-->
+        <div class="page-title-box">
+            <h4 class="page-title">Form Basic</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Form</a>
+                </li>
+                <li class="active">Form Basic</li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+        <!--End Page Title-->
+
+        <!--Start row-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white-box">
+                    <h2 class="header-title">修改热点信息</h2>
+                    <form class="form-horizontal" action="/event/EDupdate" method="post">
+                        <input type="hidden" th:value="${event.event_id}" name="event_id">
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="col-md-2 control-label"
+                            >热点</label
+                            >
+                            <div class="col-md-10">
+                                <input
+                                        class="form-control"
+                                        type="text"
+                                        id="inputTitle"
+                                        name="event_title"
+                                        placeholder="热点"
+                                        th:value="${event.event_title}"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputAbstract" class="col-md-2 control-label">事件标题</label>
+                            <div class="col-md-10">
+                                <input
+                                        class="form-control"
+                                        type="text"
+                                        id="inputAbstract"
+                                        name="event_abstract"
+                                        placeholder="事件标题"
+                                        th:value="${event.event_abstract}"
+                                />
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group">
+                            <label for="inputHome" class="col-md-2 control-label">图片</label>
+                            <div class="col-md-10">
+                                <input
+                                        class="form-control"
+                                        type="text"
+                                        id="inputHome"
+                                        name="event_img_url"
+                                        placeholder="图片"
+                                        th:value="${event.event_img_url}"
+                                />
+                            </div>
+                        </div>-->
+
+                        <div class="form-group">
+                            <label for="inputClickNum" class="col-md-2 control-label">点击数</label>
+                            <div class="col-md-10">
+                                <input
+                                        class="form-control"
+                                        type="text"
+                                        id="inputClickNum"
+                                        name="click_num"
+                                        placeholder="点击数"
+                                        th:value="${event.click_num}"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputShareNum" class="col-md-2 control-label">点击数</label>
+                            <div class="col-md-10">
+                                <input
+                                        class="form-control"
+                                        type="text"
+                                        id="inputShareNum"
+                                        name="share_num"
+                                        placeholder="分享数"
+                                        th:value="${event.share_num}"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputLink" class="col-md-2 control-label">链接</label>
+                            <div class="col-md-10">
+                                <input
+                                        class="form-control"
+                                        type="text"
+                                        id="inputLink"
+                                        name="link"
+                                        placeholder="链接"
+                                        th:value="${event.link}"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPubTime" class="col-md-2 control-label">发布时间</label>
+                            <div class="col-md-10">
+                                <input
+                                        class="form-control"
+                                        type="date"
+                                        id="inputPubTime"
+                                        name="pub_time"
+                                        placeholder="发布时间"
+                                        th:value="${event.pub_time}"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputDetails" class="col-md-2 control-label">事件详情</label>
+                            <div class="col-md-10">
+                                <textarea
+                                        class="form-control"
+                                        rows="10"
+                                        id="inputDetails"
+                                        name="event_details"
+                                        placeholder="事件详情"
+                                        th:text="${event.event_details}"
+                                ></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-default col-sm-offset-6">提交</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--End row-->
+    </div>
+    <!-- End Wrapper-->
+
+    <!--Start  Footer -->
+    <footer class="footer-main">
+        Copyright &copy; 2020-故事化资讯网站-No.5 All rights reserved.
+    </footer>
+    <!--End footer -->
+</div>
+<!--End main content -->
+
+<!--Begin core plugin -->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/plugins/moment/moment.js"></script>
+<script src="/assets/js/jquery.slimscroll.js "></script>
+<script src="/assets/js/jquery.nicescroll.js"></script>
+<script src="/assets/js/functions.js"></script>
+<!-- End core plugin -->
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <!-- Site Title-->
+    <title>故事化资讯网站新冠专题</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <!--<script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>-->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="https://echarts.apache.org/examples/vendors/jquery/jquery.js"></script>
+    <script src="https://echarts.apache.org/examples/vendors/echarts/map/js/china.js?_v_=1578305236132"></script>
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            // console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+
+    <meta name="description" content="nCoV-EMC: Vertical Timeline"/>
+    <meta name="keywords"
+          content="timeline, vertical, layout, style, component, web development, template, responsive"/>
+    <meta name="author" content="Codrops"/>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/defaultbak.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/componentbak.css"/>
+    <script src="/js/modernizr.custom.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="/css/myDatepickerbak.css">
+    <script src="/js/myDatepickerbak.js"></script>
+</head>
+<body>
+<!--开始-->
+<div class="page">
+    <!--导航条-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+
+    <style>
+        body {
+            align-items: flex-start;
+            height: 100vh;
+            justify-content: center;
+            font-size: 14px;
+            color: #555;
+            overflow-y: auto;
+        }
+
+        .input-group {
+            max-width: calc(100vw - 20px);
+            overflow: auto;
+            justify-content: flex-start !important;
+            position: relative
+        }
+
+        #wrap > div.input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        input {
+            width: 100%;
+            height: 2.5em;
+            padding: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: default;
+            outline: 0
+        }
+
+        label.bar-checkbox {
+            font-weight: 400;
+            border: 1px solid #ddd;
+            height: 2em;
+            min-height: 28px;
+            min-width: 4rem;
+            padding-left: 5px;
+            padding-right: 5px;
+            position: relative;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        label.bar-checkbox.waves-effect .waves-ripple {
+            background: radial-gradient(rgba(23, 163, 184, .3) 0, rgba(23, 163, 184, .35) 40%, rgba(23, 163, 184, .4) 50%, rgba(23, 163, 184, .45) 60%, rgba(255, 255, 255, 0) 70%)
+        }
+
+        label.bar-checkbox:not(:only-child):not(:last-of-type)::after {
+            content: "";
+            height: 1em;
+            width: 1px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, .1), rgba(0, 0, 0, .2), rgba(0, 0, 0, .1));
+            position: absolute;
+            right: 0;
+            top: .5em
+        }
+
+        label.bar-checkbox:hover {
+            background: rgba(23, 162, 184, .1);
+            border-color: rgba(23, 162, 184, .4)
+        }
+
+        .input-group label.bar-checkbox {
+            transition: background-color .1s
+        }
+
+        .input-group label.bar-checkbox:not(:first-of-type):not(:last-of-type) {
+            border-left: none;
+            border-right: none
+        }
+
+        .input-group label.bar-checkbox:first-of-type {
+            border-right: none;
+            border-top-left-radius: .5em;
+            border-bottom-left-radius: .5em
+        }
+
+        .input-group label.bar-checkbox:last-of-type {
+            border-left: none;
+            border-top-right-radius: .5em;
+            border-bottom-right-radius: .5em
+        }
+
+        input:checked + label.my-checkbox {
+            border-color: #17a2b8;
+            color: #17a2b8;
+            background: rgba(23, 162, 184, .05)
+        }
+
+        input:checked + label.my-checkbox::after, input:checked + label.my-checkbox::before {
+            opacity: 1
+        }
+
+        input:checked + label.bar-checkbox {
+            color: #17a2b8 !important;
+            border-color: #17a2b8;
+            transition: background-color 1s;
+            background-color: rgba(23, 163, 184, .2)
+        }
+
+        label.my-checkbox {
+            border: 1px solid #ddd;
+            border-radius: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 7px 10px 7px 5px;
+            margin: 0 5px 2px 0;
+            line-height: 1.5;
+            position: relative;
+            cursor: pointer;
+            transition: border-color .3s;
+            font-weight: 400;
+            background: #fff
+        }
+
+        label.my-checkbox.block-box {
+            padding: 5px 5px 0 5px;
+            flex-wrap: wrap
+        }
+
+        label.my-checkbox.block-box i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin: 5px 0 5px 0
+        }
+
+        label.my-checkbox.block-box i::before {
+            transform: scale(1.4)
+        }
+
+        label.my-checkbox:hover {
+            background: rgba(23, 162, 184, .1);
+            border-color: #1eb3ce;
+            transition: all .5s
+        }
+
+        label.my-checkbox:hover .hover-shake {
+            animation: shakeIcon .3s linear 2
+        }
+
+        label.my-checkbox.waves-effect .waves-ripple {
+            background: radial-gradient(rgba(23, 163, 184, .3) 0, rgba(23, 163, 184, .35) 40%, rgba(23, 163, 184, .4) 50%, rgba(23, 163, 184, .45) 60%, rgba(255, 255, 255, 0) 70%)
+        }
+
+        label.my-checkbox::after, label.my-checkbox::before {
+            position: absolute;
+            font-size: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+            display: block
+        }
+
+        label.my-checkbox::after {
+            content: '✔';
+            font-family: ic;
+            color: #fff;
+            top: -4px;
+            right: 0;
+            font-weight: 700
+        }
+
+        label.my-checkbox::before {
+            content: "";
+            border-width: .8em;
+            border-color: transparent;
+            border-style: solid;
+            border-top-color: #17a2b8;
+            border-right-color: #17a2b8;
+            width: 0;
+            height: 0;
+            top: 0;
+            right: 0
+        }
+
+        label.my-checkbox i {
+            margin: 0 5px
+        }
+
+        label.bar-checkbox {
+            font-weight: 400;
+            border: 1px solid #ddd;
+            height: 2em;
+            min-height: 28px;
+            min-width: 4rem;
+            padding-left: 5px;
+            padding-right: 5px;
+            position: relative;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        label.bar-checkbox.waves-effect .waves-ripple {
+            background: radial-gradient(rgba(23, 163, 184, .3) 0, rgba(23, 163, 184, .35) 40%, rgba(23, 163, 184, .4) 50%, rgba(23, 163, 184, .45) 60%, rgba(255, 255, 255, 0) 70%)
+        }
+
+        label.bar-checkbox:not(:only-child):not(:last-of-type)::after {
+            content: "";
+            height: 1em;
+            width: 1px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, .1), rgba(0, 0, 0, .2), rgba(0, 0, 0, .1));
+            position: absolute;
+            right: 0;
+            top: .5em
+        }
+
+        label.bar-checkbox:hover {
+            background: rgba(23, 162, 184, .1);
+            border-color: #1eb3ce;
+            transition: all .5s
+        }
+
+        .input-group label.bar-checkbox {
+            transition: background-color .1s
+        }
+
+        .input-group label.bar-checkbox:not(:first-of-type):not(:last-of-type) {
+            border-left: none;
+            border-right: none
+        }
+
+        .input-group label.bar-checkbox:first-of-type {
+            border-right: none;
+            border-top-left-radius: .5em;
+            border-bottom-left-radius: .5em
+        }
+
+        .input-group label.bar-checkbox:last-of-type {
+            border-left: none;
+            border-top-right-radius: .5em;
+            border-bottom-right-radius: .5em
+        }
+
+        input:checked + label.my-checkbox {
+            border-color: rgba(23, 163, 184, .7);
+            color: #17a2b8;
+            background: rgba(23, 162, 184, .05)
+        }
+
+        input:checked + label.my-checkbox::after, input:checked + label.my-checkbox::before {
+            opacity: 1
+        }
+
+        label.input-label {
+            font-weight: 700;
+            border-left: 2px solid #17a2b8;
+            padding-left: .5em;
+            margin: .5em 0;
+            display: inline-block
+        }
+
+        .info-span {
+            background: #eee;
+            padding: 2px;
+            font-weight: 500;
+            margin: 5px 0;
+            font-size: 12px;
+            cursor: default;
+            display: inline-block
+        }
+    </style>
+
+
+    <div class="container">
+        <header class="clearfix">
+            <h2>新冠发展时间轴</h2>
+        </header>
+
+        <div id="wrap">
+            <label class='input-label'>选择范围</label>
+            <div class='input-group'>
+                <!--<input type="radio" hidden id='dateType_0' value='2' name='dateType' >
+                <label for="dateType_0" class='bar-checkbox waves-effect'>日</label>
+                <input type="radio" hidden id='dateType_2' value='1' name='dateType' >
+                <label for="dateType_2" class='bar-checkbox waves-effect'>月</label>-->
+                <input type="radio" hidden id='dateType_4' value='0' name='dateType'>
+                <label for="dateType_4" class='bar-checkbox waves-effect'>年</label>
+                <input type="radio" hidden id='dateType_2' value='1' name='dateType'>
+                <label for="dateType_2" class='bar-checkbox waves-effect'>月</label>
+                <input type="radio" hidden id='dateType_0' value='2' name='dateType'>
+                <label for="dateType_0" class='bar-checkbox waves-effect'>日</label>
+            </div>
+            <label class='input-label'>输入查询日期</label>
+            <form class="form-inline" action="/xinguan/timeline" method="post">
+                <div style='display: flex;'>
+                    <input type="text" id='date-input' style='width:20em;display: block;' th:value="${EventID}"
+                           name="date_time" class="form-control">
+                    <button type="submit">查询</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="main">
+            <ul class="cbp_tmtimeline">
+                <li th:each="ViewEventInfo1:${eventinfo2}">
+                    <time class="cbp_tmtime" datetime="2013-04-13 05:36" style="color: #00aeff !important;">
+                  <span><h6>
+                      <td th:text="${#dates.format(ViewEventInfo1.date_time,'yyyy/MM/dd')}"><b>点击数</b></td>
+                      </h6>
+                  </span>
+                    </time>
+                    <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                    <div class="cbp_tmlabel" style="color: #FFFFFF">
+                        <h6>
+                            <td th:text="${ViewEventInfo1.event_abstract}">点击数</td>
+                        </h6>
+                        <p>
+                        <td th:text="${ViewEventInfo1.event_details}"><b>点击数</b></td>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+    <div class="preloader">
+        <div th:replace="menu::myloading"></div>
+    </div>
+</div>
+</body>
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+<!--<script src="/js/core.min.js"></script>-->
+<!--<script src="/js/script.js"></script>-->
+<link rel="stylesheet" href="/css/myDatepickerbak.css">
+<script src="/js/myDatepickerbak.js"></script>
+<script>
+    //调用日期插件
+    $("#date-input").myDatePicker({
+        'startDate': '2014-01-01 18:45:20',
+        'endDate': (new Date()).Format("yyyy-mm-dd hh:ii:ss"),
+        //指定父元素，不指定默认为body
+        parent: $("#date-input").parent(),
+        //定位方式是否用fixed
+        positionFixed: $("#position-1").is(':checked'),
+    });
+    /**
+     * 监听日期类型变化
+     */
+    (function listenDatePicker() {
+        let _radio = $(" input[name='dateType']");
+        let _radio2 = $("input[name='position']");
+        let _input = $(" #date-input");
+        _radio.on('change', function () {
+            let view = parseInt($(this).val());
+            // 0 - 4 年 月 日 周 季
+            _input[0].resetDatePicker({
+                'view': view,
+            });
+            _input.focus();
+        });
+        //重置定位是fixed还是absolute
+        _radio2.on('change', function () {
+            _input[0].resetDatePicker({
+                positionFixed: $("#position-1").is(':checked'),
+            });
+        });
+    })();
+</script>
+</html>

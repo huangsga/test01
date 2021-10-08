@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/component.css"/>
+    <script src="/js/modernizr.custom.js"></script>
+    <!-- Site Title-->
+    <title>故事化资讯网站年龄发展——婴幼儿</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+
+        }
+        function showTime(){
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日","一",'二','三','四','五','六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month +"月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()",500);
+        }
+        //格式化时间：分秒。
+        function formatTime (i){
+            if(i < 10){
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css" rel="stylesheet">
+</head>
+<body>
+<!--开始-->
+<section class="page">
+    <!--导航条-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!--标题-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">婴幼儿时期</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a th:href="@{/user/index}">首页</a></li>
+                            <li><a>年龄阶段</a></li>
+                            <li class="active">婴幼儿时期</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--echarts图-->
+    <div class="swiper-container swiper-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <div class="container text-center text-md-left">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="swiper-slide-text">
+                                    <!--<h5 class="text-style-1">-->
+                                        婴幼儿阶段:婴儿和幼儿的统称，一般是指0-6岁的幼小儿童。婴儿与幼儿之间有莫大的联系，因此在许多的儿童论著、医学论著、儿童早期教育等会将它们并起来说，以示方便理解。虽然它们之间有着密切的联系，但如果从孩子发展层面来说还是有两个方面区别，一为婴儿(0-12月)和幼儿(1-3岁)。婴幼儿是一个受护群体，在保育和教育方面有特殊的要求。婴儿以母乳为主食(4-6个月后逐渐添加辅食)，1岁后以成人食物为主食。婴幼儿时期是每个人成长阶段的关键时期，婴幼儿宝宝需要加倍小心的呵护，同时妈妈们需要知道的是宝宝生病是正常的，只要正确护理就没有太大问题，而且宝宝的抵抗力会随着一次次与生病的斗争中慢慢增强👊
+                                    <!--</h5>-->
+                                </div>
+                                <div class="offset-top-35">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img
+                                        src="/images/children.jpg"
+                                        alt=""
+                                        width="1000"
+                                        height="600"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="#">
+                                <form method="post" action="/stu/sc" class="form-inline"></form>
+                                <div class="container">
+                                    <div class="echartbt"
+                                         style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                        <div id="main" style="width:750px;height:400px;background:white">
+                                            <script th:inline="javascript">
+                                                let arr;
+                                                var myChart = echarts.init(document.getElementById('main'));
+                                                var aa = [[${cstage}]];
+                                                var mydata = [];
+                                                var title = [];
+                                                aa.forEach(function (item) {
+                                                    console.log(typeof (item.age) + "---" + typeof (item.ill_name));
+                                                    title.push(item.ill_name);
+                                                    mydata.push(item.age)
+                                                })
+                                                option = {
+                                                    backgroundColor: 'white',
+                                                    title: {
+                                                        text: '婴幼儿时期常见疾病及患病年龄',
+                                                        left: 'center'
+
+                                                    },
+                                                    tooltip: {
+                                                        trigger: 'axis',
+                                                        axisPointer: {
+                                                            type: 'shadow'
+                                                        }
+                                                    },
+                                                    xAxis: {
+                                                        name: '疾病名称',
+                                                        type: 'category',
+                                                        data: title
+                                                    },
+                                                    yAxis: {
+                                                        name: '年龄',
+                                                        type: 'value'
+
+                                                    },
+                                                    series: [{
+                                                        data: mydata,
+                                                        type: 'line'
+                                                    }]
+                                                };
+                                                myChart.setOption(option);
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#"><form method="post" action="/stu/sc" class="form-inline"></form>
+                                <div class="container">
+                                    <div class="echartbt" style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                        <div id="main2"  style="width:750px;height:400px;background:white">
+                                            <script th:inline="javascript">
+                                                var myChart = echarts.init(document.getElementById('main2'));
+                                                var aa = [[${cage}]];
+                                                var mydata=[];
+                                                var title =[];
+                                                var Mydata=[];
+                                                aa.forEach(function(item){
+                                                    // console.log(typeof(item.age)+"---"+typeof(item.count));
+                                                    var obj={value:0,name:''};
+                                                    obj.value=item.count;
+                                                    obj.name=item.age;
+                                                    mydata.push(item.count);
+                                                    title.push(item.age);
+                                                    Mydata.push(obj);
+                                                })
+                                                console.log(mydata)
+                                                console.log(title)
+                                                myChart.setOption({
+                                                    backgroundColor: 'white',
+                                                    title: {
+                                                        text: '婴幼儿时期各年龄疾病数统计',
+                                                        left: 'center'
+                                                    },
+                                                    tooltip: {
+                                                        trigger: 'item',
+                                                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                                                    },
+                                                    legend: {
+                                                        top: 'bottom',
+                                                        data:title
+                                                    },
+                                                    series: [
+                                                        {
+                                                            name: '面积模式',
+                                                            type: 'pie',
+                                                            center: ['50%', '50%'],
+                                                            roseType: 'area',
+                                                            data: Mydata,
+
+
+
+                                                        }
+                                                    ]
+                                                })
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <a href="#">
+                        <form method="post" action="/stu/sc" class="form-inline"></form>
+                        <div class="container">
+                            <div class="echartbt"
+                                 style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                <div id="main1" style="width:1200px;height:500px;background:white">
+                                    <script th:inline="javascript">
+                                        var myChart = echarts.init(document.getElementById('main1'));
+                                        myChart.setOption({
+                                            backgroundColor: 'white',
+                                            title: {
+                                                text: '婴幼儿时期常见疾病介绍',
+                                                left: 'center'
+                                            },
+                                            series: [
+                                                {
+
+                                                    name: '访问来源',
+                                                    type: 'pie',    // 设置图表类型为饼图
+                                                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                                                    data: [          // 数据数组，name 为数据项名称，value 为数据项值
+                                                        {
+                                                            value: 1, name: '喉梗阻又名喉阻塞。它不是一个独立的疾病，而是由喉部及其周围邻近\n' +
+                                                                '组织的病变而引起的以吸气期呼吸困难为特征的综合征。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '口水疹多是由于皮肤经常受潮湿或异物摩擦等刺激因素,有时可导致\n' +
+                                                                '皮肤角质层受损。其临床表现为局部皮肤潮红、疼痛、轻度肿,好发部位是\n' +
+                                                                '嘴角等嘴唇边缘。一般为婴幼儿多见病症。宝宝出现口水疹多是在长牙期\n' +
+                                                                '常常流口水导致的。'
+                                                        },
+                                                        {value: 1, name: '营养不良是由于热量和/或蛋白质不足而致的慢性营养缺乏症\n'},
+                                                        {
+                                                            value: 1, name: '麻疹是由麻疹病毒感染引起的急性呼吸道疾病，是一种自限性疾病\n' +
+                                                                '，但是传染性很高，通过呼吸道传播。典型的麻疹症状通常包括高热、\n' +
+                                                                '咳嗽、口腔麻疹黏膜斑，首发症状出现3~ 5日后出现全身斑丘疹，\n' +
+                                                                '病后大多可获得终身免疫。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '水痘是因为受到水痘-带状疱疹病毒初次感染引起的一种具有强传\n' +
+                                                                '染性的急性传染病，主要的传播途径为呼吸道飞沫或直接接触，春季和\n' +
+                                                                '冬季多发生。婴幼儿是好发人群，易感儿发病率可达95%以上，0～6个月以内宝宝\n' +
+                                                                '具有母体来的抗体，发病率较低，2～6岁学龄前儿童为发病高峰群体。\n'
+                                                        },
+                                                        {
+                                                            value: 1, name: '腹泻病，是一组由多病原、多因素引起的以大便次数增多和大便\n' +
+                                                                '性状改变为特点的消化道综合征。'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+
+                                        })
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <!-- Swiper Pagination-->
+    <div class="swiper-pagination-wrap">
+        <div class="container">
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Join Our Team-->
+    <section class="section-80 section-md-110 bg-light">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 col-lg-4">
+                    <div id="main3" style="width:1200px;height:500px;background:white">
+                        <script th:inline="javascript">
+                            var myChart = echarts.init(document.getElementById('main3'));
+                            var option = {
+                                //timeline基本配置都写在baseoption 中
+                                baseOption: {
+                                    timeline: {
+                                        //loop: false,
+                                        axisType: 'category',
+                                        show: true,
+                                        autoPlay: true,
+                                        playInterval: 1000,
+                                        data: ['前期', '中期', '后期'],
+                                    },
+                                    grid: {containLabel: true},
+                                    xAxis: [{
+                                        type: 'category',
+                                        name: '疾病名称',
+                                    },],
+                                    yAxis: {type: 'value', name: '人'},
+                                    series: [
+                                        {
+                                            type: 'line',
+                                        },
+                                    ],
+                                    tooltip: {}
+                                },
+                                //变量则写在options中
+                                options: [
+                                    {
+                                        xAxis: [{
+                                            data: ['喉梗阻','水痘', '麻疹', '口水疹','婴儿贫血','宝宝鼻塞','长痱子','小儿营养不良','小儿腹泻']
+                                        }],
+                                        title: {
+                                            text: '婴幼儿阶段常见疾病发病人数',
+                                            subtext: '单位:人'
+                                        },
+                                        series: [
+                                            {
+                                                data: [120, 450, 140,100,80,70,200,300,400]
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        xAxis: [{
+                                            data: ['喉梗阻','水痘', '麻疹', '口水疹','婴儿贫血','宝宝鼻塞','长痱子','小儿营养不良','小儿腹泻']
+                                        }],
+                                        title: {
+                                            text: '婴幼儿阶段常见疾病发病人数',
+                                            subtext: '单位:人'
+                                        },
+                                        series: [
+                                            {
+                                                data: [530, 130, 780,600,800,670,450,500,700]
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        xAxis: [{
+                                            data: ['喉梗阻','水痘', '麻疹', '口水疹','婴儿贫血','宝宝鼻塞','长痱子','小儿营养不良','小儿腹泻']
+                                        }],
+                                        title: {
+                                            text: '婴幼儿阶段常见疾病发病人数',
+                                            subtext: '单位:人'
+                                        },
+                                        series: [
+                                            {
+                                                data: [560, 350, 180,100,300,400,500,200,300]
+                                            },
+
+                                        ]
+                                    },
+                                ]
+                            }
+                            myChart.setOption(option);
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Your Career Starts Here-->
+    <section class="section-80 section-md-110 bg-gray-lighter">
+        <div class="container">
+            <div class="row justify-content-md-center text-center">
+                <div class="col-md-9 col-lg-12">
+                    <h2>婴幼儿时期常见疾病及建议</h2>
+                    <div class="divider divider-md divider-primary"></div>
+                    <p class="offset-top-30 offset-md-top-55">
+                    <div class="clo-lg-12">
+                        <form method="post" action="/stu/sc" class="form-horizontal">
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-3"></div>
+                                <div class="col-xs-6 col-sm-3"></div>
+                                <div class="col-xs-6 col-sm-3">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <select class="form-control" name="cname">
+                                                <option value="1">---请选择相关疾病进行查询---</option>
+                                                <option th:each="IllInfo:${cstage}"
+                                                        th:value="${IllInfo.ill_id}"
+                                                        th:text="${IllInfo.ill_name}"
+                                                        th:selected="${IllInfo.ill_id==ill_id}"
+                                                ></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <button class="btn btn-primary btn-lg" type="submit">查询</button>
+                                </div>
+                            </div>
+                            <tr th:each="IllInfo :${cname}">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <header class="clearfix">
+                                            <h5>婴幼儿阶段各年龄相关疾病</h5>
+                                        </header>
+                                        <div class="main">
+                                            <ul class="cbp_tmtimeline">
+                                                <li th:each="IllInfo:${cstage}"
+                                                >
+                                                    <time class="cbp_tmtime" datetime="1">
+                                                        <span><h5><td
+                                                                th:text="${IllInfo.age}"><b>点击数</b></td></h5></span>
+                                                    </time>
+                                                    <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                    <div class="cbp_tmlabel">
+                                                        <span><td th:text="${IllInfo.ill_name}"></td></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <header class="clearfix">
+                                            <h5>您所查询的是：<td th:text="${IllInfo.ill_name}"></td></h5>
+                                        </header>
+                                        <div>
+                                            <div class="offset-top-30 box-custom hot">
+                                                <h5 class="box-custom-header">
+                                                    <a href="#">简介</a>
+                                                </h5>
+                                                <ul class="list-meta-variant-1">
+                                                    <li>
+                                                        <td th:text="${IllInfo.ill_abstract}"></td>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <div class="box-custom hot">
+                                                    <h5 class="box-custom-header">
+                                                        <a href="#">原因</a>
+                                                    </h5>
+                                                    <ul class="list-meta-variant-1">
+                                                        <li>
+                                                            <td th:text="${IllInfo.ill_reason}"></td>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <div class="box-custom hot">
+                                                    <h5 class="box-custom-header">
+                                                        <a href="#">详情</a>
+                                                    </h5>
+                                                    <ul class="list-meta-variant-1">
+                                                        <li>
+                                                            <td th:text="${IllInfo.ill_details}"></td>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div>
+                                                <div class="box-custom hot">
+                                                    <h5 class="box-custom-header">
+                                                        <a href="#">建议</a>
+                                                    </h5>
+                                                    <ul class="list-meta-variant-1">
+                                                        <li>
+                                                            <td th:text="${IllInfo.ill_advice}"></td>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        </form>
+                    </div>
+                </div>
+                </p>
+            </div>
+        </div>
+    </section>
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+    <div class="preloader">
+        <div th:replace="menu::myloading"></div>
+    </div>
+    <!-- Javascript-->
+    <script src="/js/core.min.js"></script>
+    <script src="/js/script.js"></script>
+    </form>
+</section>
+</body>
+</html>
+

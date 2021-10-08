@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/component.css"/>
+    <script src="/js/modernizr.custom.js"></script>
+    <!-- Site Title-->
+    <title>故事化资讯网站年龄发展——中年</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+<body>
+<!--开始-->
+<div class="page">
+    <!-- 导航条-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!--标题-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">中年时期</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a th:href="@{/user/index}">首页</a></li>
+                            <li><a>年龄阶段</a></li>
+                            <li class="active">中年时期</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Swiper-->
+    <div class="swiper-container swiper-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <div class="container text-center text-md-left">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="swiper-slide-text">
+                                    <!--<h5 class="text-style-1">-->
+                                    中年阶段:中年期一般指35~60岁这段时期。中年期是人生中相当长的一段岁月，人生的许多重要任务都是在这一时期完成的。中年期无论在生理上还是心理上都发生了一系列的变化。特别是女性更年期和男性更年期，在此期间要注意调节哦！👊
+                                    <!--</h5>-->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img
+                                        src="/images/middle.jpg"
+                                        alt=""
+                                        width="1000"
+                                        height="600"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="#">
+                                <form method="post" action="/stu/sc" class="form-inline"></form>
+                                <div class="container">
+                                    <div class="echartbt"
+                                         style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                        <div id="main" style="width:750px;height:400px;background:white">
+                                            <script th:inline="javascript">
+                                                let arr;
+                                                var myChart = echarts.init(document.getElementById('main'));
+                                                var aa = [[${mstage}]];
+                                                var mydata = [];
+                                                var title = [];
+                                                aa.forEach(function (item) {
+                                                    console.log(typeof (item.age) + "---" + typeof (item.ill_name));
+                                                    title.push(item.ill_name);
+                                                    mydata.push(item.age)
+                                                })
+                                                option = {
+                                                    backgroundColor: 'white',
+                                                    title: {
+                                                        text: '中年时期常见疾病及患病年龄',
+                                                        left: 'center'
+
+                                                    },
+                                                    tooltip: {
+                                                        trigger: 'axis',
+                                                        axisPointer: {
+                                                            type: 'shadow'
+                                                        }
+                                                    },
+                                                    xAxis: {
+                                                        name: '疾病名称',
+                                                        type: 'category',
+                                                        data: title
+                                                    },
+                                                    yAxis: {
+                                                        name: '年龄',
+                                                        type: 'value'
+
+                                                    },
+                                                    series: [{
+                                                        data: mydata,
+                                                        type: 'line'
+                                                    }]
+                                                };
+                                                myChart.setOption(option);
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#">
+                                <form method="post" action="/stu/sm" class="form-inline"></form>
+                                <div class="container">
+                                    <div class="echartbt"
+                                         style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                        <div id="main2" style="width:750px;height:400px;background:white">
+                                            <script th:inline="javascript">
+                                                var myChart = echarts.init(document.getElementById('main2'));
+                                                var aa = [[${mage}]];
+                                                var mydata = [];
+                                                var title = [];
+                                                var Mydata = [];
+                                                aa.forEach(function (item) {
+                                                    // console.log(typeof(item.age)+"---"+typeof(item.count));
+                                                    var obj = {value: 0, name: ''};
+                                                    obj.value = item.count;
+                                                    obj.name = item.age;
+                                                    mydata.push(item.count);
+                                                    title.push(item.age);
+                                                    Mydata.push(obj);
+                                                })
+                                                console.log(mydata)
+                                                console.log(title)
+                                                myChart.setOption({
+                                                    backgroundColor: 'white',
+                                                    title: {
+                                                        text: '婴幼儿时期各年龄疾病数统计',
+                                                        left: 'center'
+                                                    },
+                                                    tooltip: {
+                                                        trigger: 'item',
+                                                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                                                    },
+                                                    legend: {
+                                                        top: 'bottom',
+                                                        data: title
+                                                    },
+                                                    series: [
+                                                        {
+                                                            name: '面积模式',
+                                                            type: 'pie',
+                                                            center: ['50%', '50%'],
+                                                            roseType: 'area',
+                                                            data: Mydata,
+                                                        }
+                                                    ]
+                                                })
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <a href="#">
+                        <form method="post" action="/stu/sc" class="form-inline"></form>
+                        <div class="container">
+                            <div class="echartbt"
+                                 style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                <div id="main1" style="width:1200px;height:500px;background:white">
+                                    <script th:inline="javascript">
+                                        var myChart = echarts.init(document.getElementById('main1'));
+                                        myChart.setOption({
+                                            backgroundColor: 'white',
+                                            title: {
+                                                text: '中年时期常见疾病介绍',
+                                                left: 'center'
+
+                                            },
+                                            series: [
+                                                {
+                                                    name: '访问来源',
+                                                    type: 'pie',    // 设置图表类型为饼图
+                                                    radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                                                    data: [          // 数据数组，name 为数据项名称，value 为数据项值
+                                                        {
+                                                            value: 1, name: '偏头痛是临床最常见的原发性头痛，也是一种常见的慢性发作性神经\n' +
+                                                                '血管疾患。常表现为反复发作的、多单侧的中、重度搏动样头痛，常伴有\n' +
+                                                                '恶心、呕吐、畏光、畏声及疲乏无力，少数典型病例发病前有视觉、\n' +
+                                                                '感觉和运动障碍等先兆，多数患者有家族史，其发作可与多种因素\n' +
+                                                                '有关，如各种理化因素、精神因素、内分泌和代谢因素等。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '心肌梗死是指急性心肌缺血坏死，大多是在冠状动脉病变的基础\n' +
+                                                                '上，冠状动脉的供血急剧减少或中断，使相应的心肌严重而持久的急性\n' +
+                                                                '缺血所致，属于急性冠脉综合征。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '胆囊结石是指发生在胆囊内的结石所引起的疾病，是一种常见病。\n' +
+                                                                '随年龄增长，发病率也逐渐升高，女性明显多于男性。随着生活水平的\n' +
+                                                                '提高，饮食习惯的改变，卫生条件的改善，我国的胆石症已由以胆管的\n' +
+                                                                '胆色素结石为主逐渐转变为以胆囊胆固醇结石为主。结石在胆囊内形成\n' +
+                                                                '后，可刺激胆囊粘膜，不仅可引起胆囊的慢性炎症，而且当结石嵌顿在\n' +
+                                                                '胆囊颈部或胆囊管后，可以引起继发感染，导致胆囊的急性炎症。'
+                                                        }
+
+                                                    ]
+                                                }
+                                            ]
+                                        })
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <!-- Swiper Pagination-->
+    <div class="swiper-pagination-wrap">
+        <div class="container">
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</div>
+
+
+<!--年龄阶段发展-->
+<section class="section-80 section-md-110 bg-light">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12 col-lg-4">
+
+                <div id="main3" style="width:1200px;height:500px;background:white">
+                    <script th:inline="javascript">
+                        var myChart = echarts.init(document.getElementById('main3'));
+                        var option = {
+                            //timeline基本配置都写在baseoption 中
+                            baseOption: {
+                                timeline: {
+                                    //loop: false,
+                                    axisType: 'category',
+                                    show: true,
+                                    autoPlay: true,
+                                    playInterval: 1000,
+                                    data: ['前期', '中期', '后期'],
+                                },
+                                grid: {containLabel: true},
+                                xAxis: [{
+                                    type: 'category',
+                                    name: '疾病名称',
+                                },],
+                                yAxis: {type: 'value', name: '人'},
+                                series: [
+                                    {
+                                        type: 'line',
+                                    },
+                                ],
+                                tooltip: {}
+                            },
+                            //变量则写在options中
+                            options: [
+                                {
+                                    xAxis: [{
+                                        data: ['偏头痛', '胃溃疡', '心肌梗塞', '胆结石', '癌症', '便秘', '脱发', '焦虑症', '骨质增生', '颈椎病', '腰椎病', '胆囊炎']
+                                    }],
+                                    title: {
+                                        text: '中年阶段常见疾病发病人数',
+                                        subtext: '单位:人'
+                                    },
+                                    series: [
+                                        {
+                                            data: [120, 450, 140, 100, 80, 70, 200, 300, 400, 300, 400]
+                                        },
+                                    ]
+                                },
+                                {
+                                    xAxis: [{
+                                        data: ['偏头痛', '胃溃疡', '心肌梗塞', '胆结石', '癌症', '便秘', '脱发', '焦虑症', '骨质增生', '颈椎病', '腰椎病', '胆囊炎']
+                                    }],
+                                    title: {
+                                        text: '中年阶段常见疾病发病人数',
+                                        subtext: '单位:人'
+                                    },
+                                    series: [
+                                        {
+                                            data: [530, 130, 780, 600, 800, 670, 450, 500, 700, 550, 300, 400]
+                                        },
+                                    ]
+                                },
+                                {
+                                    xAxis: [{
+                                        data: ['偏头痛', '胃溃疡', '心肌梗塞', '胆结石', '癌症', '便秘', '脱发', '焦虑症', '骨质增生', '颈椎病', '腰椎病', '胆囊炎']
+                                    }],
+                                    title: {
+                                        text: '中年阶段常见疾病发病人数',
+                                        subtext: '单位:人'
+                                    },
+                                    series: [
+                                        {
+                                            data: [560, 350, 180, 100, 300, 400, 500, 200, 300, 200, 100, 600]
+                                        },
+
+                                    ]
+                                },
+                            ]
+                        }
+                        myChart.setOption(option);
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Your Career Starts Here-->
+<section class="section-80 section-md-110 bg-gray-lighter">
+    <div class="container">
+        <div class="row justify-content-md-center text-center">
+            <div class="col-md-9 col-lg-12">
+                <h2>中年时期常见疾病及建议</h2>
+                <div class="divider divider-md divider-primary"></div>
+                <p class="offset-top-30 offset-md-top-55">
+                <div class="clo-lg-12">
+                    <form method="post" action="/stu/sm" class="form-horizontal">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-3"></div>
+                            <div class="col-sm-6 col-md-3"></div>
+                            <div class="col-sm-6 col-md-3">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="mname">
+                                            <option value="26">---请选择相关疾病进行查询---</option>
+                                            <option th:each="IllInfo:${mstage}"
+                                                    th:value="${IllInfo.ill_id}"
+                                                    th:text="${IllInfo.ill_name}"
+                                                    th:selected="${IllInfo.ill_id==ill_id}"
+                                            ></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-3">
+                                <button class="btn btn-primary btn-lg" type="submit">查询</button>
+                            </div>
+                        </div>
+                        <tr th:each="IllInfo :${mname}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <header class="clearfix">
+                                        <h4>中年阶段相关疾病时间线</h4>
+                                    </header>
+                                    <ul class="cbp_tmtimeline">
+                                        <li th:each="IllInfo:${mstage}">
+                                            <time class="cbp_tmtime" age="30">
+                                                <span><h5><td th:text="${IllInfo.age}"><b>点击数</b></td></h5></span>
+                                            </time>
+                                            <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                            <div class="cbp_tmlabel">
+                                                <span><td th:text="${IllInfo.ill_name}"><b>点击数</b></td></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <header class="clearfix">
+                                        <h5>您所查询的是：
+                                            <td th:text="${IllInfo.ill_name}"></td>
+                                        </h5>
+                                    </header>
+                                    <div>
+                                        <div class="offset-top-30 box-custom hot">
+                                            <h5 class="box-custom-header">
+                                                <a href="#">简介</a>
+                                            </h5>
+                                            <ul class="list-meta-variant-1">
+                                                <li>
+                                                    <td th:text="${IllInfo.ill_abstract}"></td>
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <div class="box-custom hot">
+                                            <h5 class="box-custom-header">
+                                                <a href="#">原因</a>
+                                            </h5>
+                                            <ul class="list-meta-variant-1">
+                                                <li>
+                                                    <td th:text="${IllInfo.ill_reason}"></td>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <div class="box-custom hot">
+                                            <h5 class="box-custom-header">
+                                                <a href="#">详情</a>
+                                            </h5>
+                                            <ul class="list-meta-variant-1">
+                                                <li>
+                                                    <td th:text="${IllInfo.ill_details}"></td>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <div class="box-custom hot">
+                                            <h5 class="box-custom-header">
+                                                <a href="#">建议</a>
+                                            </h5>
+                                            <ul class="list-meta-variant-1">
+                                                <li>
+                                                    <td th:text="${IllInfo.ill_advice}"></td>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
+                    </form>
+                </div>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- Page Footer-->
+<footer class="page-foot bg-gray-dark">
+    <div th:replace="menu::myfooter"></div>
+</footer>
+<div class="preloader">
+    <div th:replace="menu::myloading"></div>
+</div>
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</form>
+</section>
+</div>
+</body>
+</html>

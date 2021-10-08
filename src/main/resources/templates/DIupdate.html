@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png"/>
+    <title>用户浏览信息添加页面！</title>
+    <link href="/assets/css/icons.css" rel="stylesheet"/>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/responsive.css" rel="stylesheet"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+<!--Start left side Menu-->
+<div class="left-side sticky-left-side">
+    <!--logo-->
+    <div class="logo">
+        <a href="index.html"><img src="/assets/images/logo.png" alt=""/></a>
+    </div>
+
+    <div class="logo-icon text-center">
+        <a href="index.html"
+        ><img src="/assets/images/logo-icon.png" alt=""
+        /></a>
+    </div>
+    <!--logo-->
+
+    <div class="left-side-inner">
+        <!--Sidebar nav-->
+        <div class="nano" th:replace="menu::mymenu">
+        </div>
+        <!--End sidebar nav-->
+    </div>
+</div>
+<!--End left side menu-->
+
+<!-- main content start-->
+<div class="main-content">
+    <!-- header section start-->
+    <div class="header-section">
+        <div th:replace="menu::mytopbar">
+        </div>
+    </div>
+    <!-- header section end-->
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+        <!--Start Page Title-->
+        <div class="page-title-box">
+            <h4 class="page-title">Form Basic</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Form</a>
+                </li>
+                <li class="active">Form Basic</li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+        <!--End Page Title-->
+
+        <!--Start row-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white-box">
+                    <h2 class="header-title">医生资源详情页面！</h2>
+                    <form action="/doc/update" method="post" class="form-horizontal">
+                        <input type="hidden" th:value="${docInfo.doc_id}" name="doc_id">
+                        <div class="form-group">
+                            <label for="inputName" class="col-md-2 control-label">部门分类</label>
+                            <div class="col-md-10">
+                                <input type="text" th:value="${docInfo.doc_category}" name="doc_category"
+                                       class="form-control" id="inputCategory" placeholder="部门分类">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputHospital" class="col-md-2 control-label">任职医院</label>
+                            <div class="col-md-10">
+                                <input type="text" th:value="${docInfo.doc_hospital}" name="doc_hospital"
+                                       class="form-control" id="inputHospital"  placeholder="任职医院">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName" class="col-md-2 control-label">医生姓名</label>
+                            <div class="col-md-10">
+                                <input type="text" th:value="${docInfo.doc_name}" name="doc_name"
+                                       class="form-control" id="inputName" placeholder="医生姓名">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTitle" class="col-md-2 control-label">医生头衔</label>
+                            <div class="col-md-10">
+                                <input type="text" th:value="${docInfo.doc_title}" name="doc_title"
+                                       class="form-control" id="inputTitle" placeholder="医生头衔">
+                            </div>
+                        </div>
+
+                        <div class="form-group"  th:each="DoctorInfo:${docInfo}">
+                            <label for="inputAwards" class="col-md-2 control-label">主要成就</label>
+                            <div class="col-md-10">
+                                <textarea rows="5"  th:text="${DoctorInfo.doc_awards}" name="doc_awards" id="inputAwards" class="form-control"
+                                          placeholder="主要成就"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group"  th:each="DoctorInfo:${docInfo}">
+                            <label for="inputDetails" class="col-md-2 control-label">详细介绍</label>
+                            <div class="col-md-10">
+                                <textarea rows="5" th:text="${DoctorInfo.doc_details}" name="doc_details" class="form-control" id="inputDetails"
+                                          placeholder="详细介绍"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <button type="submit" class="btn btn-default col-sm-offset-6">提交</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--End row-->
+    </div>
+    <!-- End Wrapper-->
+
+    <!--Start  Footer -->
+    <footer class="footer-main">
+        Copyright &copy; 2020-故事化资讯网站-No.5 All rights reserved.
+    </footer>
+    <!--End footer -->
+</div>
+<!--End main content -->
+
+<!--Begin core plugin -->
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/plugins/moment/moment.js"></script>
+<script src="/assets/js/jquery.slimscroll.js "></script>
+<script src="/assets/js/jquery.nicescroll.js"></script>
+<script src="/assets/js/functions.js"></script>
+<!-- End core plugin -->
+</body>
+</html>

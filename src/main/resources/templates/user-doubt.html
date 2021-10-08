@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Site Title-->
+    <title>故事化资讯网站提问留言</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script th:inline="javascript">
+
+        window.onload = function () {
+            showTime();
+            checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+
+        }
+        function checkDoubt() {
+                alert("您的问题已提交成功，请耐心等待！");
+        }
+        function showTime(){
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日","一",'二','三','四','五','六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month +"月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()",500);
+        }
+        //格式化时间：分秒。
+        function formatTime (i){
+            if(i < 10){
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- Page-->
+<div class="page">
+    <!-- Page Header-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!-- Breadcrumbs-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">提问小管家</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a th:href="@{/user/index}">首页</a></li>
+                            <li><a>医生资源</a></li>
+                            <li class="active">提问留言</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Responsive-tabs-->
+    <section class="section-60 section-sm-top-90 section-sm-bottom-110">
+        <div class="container">
+            <div class="row justify-content-md-end">
+                <div class="col-sm-12">
+                    <div
+                            class="responsive-tabs responsive-tabs-default responsive-tabs-vertical responsive-tabs-vertical-1"
+                            data-custom-hash="true"
+                    >
+                        <div class="resp-tabs-container">
+                            <!-- Tab 1-->
+                            <div class="tab">
+                                <div class="box-custom-variant-1">
+                                    <div class="box-header">
+                                        <h3>有趣的提问可以被展示哦~</h3>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="offset-top-10">
+                                        <div class="inset-md-left-24">
+                                            <ul class="list-marked-variant-2" th:each="UserDoubt:${userDoubt}">
+                                                <li th:text="${UserDoubt.user_doubt}">新冠是什么时候开始的？</li>
+                                                <p th:text="${UserDoubt.mess_details}">
+                                                    大概从12月多听说到
+                                                </p>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div
+                            class="responsive-tabs responsive-tabs-default responsive-tabs-vertical responsive-tabs-vertical-1"
+                            data-custom-hash="true"
+                    >
+                        <div class="resp-tabs-container">
+                            <div class="box-custom-variant-1">
+                                <div class="box-header">
+                                    <h3>提问留言板~</h3>
+                                </div>
+                            </div>
+                            <!-- RD Mailform-->
+                            <form
+                                    class="rd-mailform"
+                                    data-form-output="form-output-global"
+                                    data-form-type="contact"
+                                    method="post"
+                                    action="/doc/passDoc_name"
+                            >
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-wrap">
+                                            <input
+                                                    disabled
+                                                    class="form-input"
+                                                    id="contact-user_name"
+                                                    type="text"
+                                                    name="user_name"
+                                                    th:value="${session[userinfo].user_name}"
+                                                    placeholder="请输入用户名"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 offset-top-18 offset-md-top-0">
+                                        <div class="form-wrap">
+                                            <input
+                                                    disabled
+                                                    class="form-input"
+                                                    type="text"
+                                                    name="doc_name"
+                                                    th:value="'您选择提问的医生是：'+${passDocName}"
+                                                    placeholder="您选择提问的医生是:"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 offset-top-18">
+                                        <div class="form-wrap">
+                          <textarea
+                                  class="form-input"
+                                  id="contact-message"
+                                  name="user_doubt"
+                                  placeholder="您的问题是？"
+                          ></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 offset-top-30">
+                                        <button class="btn btn-primary" type="submit" onclick="checkDoubt()">
+                                            提交问题
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+    <div class="preloader">
+        <div th:replace="menu::myloading"></div>
+    </div>
+</div>
+<!-- Javascript-->
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

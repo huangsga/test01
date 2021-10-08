@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Site Title-->
+    <title>故事化资讯网站身体疾病详情页面</title>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <meta name="description" content="Bootstrap Basic Tab Based Navigation Example">
+    <link href="/try/bootstrap/twitter-bootstrap-v2/docs/assets/css/bootstrap.css" rel="stylesheet">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- Page-->
+<div class="page">
+    <!-- Page Header-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!-- Breadcrumbs-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <div class="offset-top-22 offset-md-top-0 text-md-right">
+                            <ul class="breadcrumbs-custom">
+                                <li><a th:href="@{/user/index}">首页</a></li>
+                                <li><a th:href="@{/body/ch}">身体机理</a></li>
+                                <li class="active">疾病详情</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Responsive-tabs-->
+    <section class="section-60 section-sm-top-90 section-sm-bottom-110">
+        <div class="container">
+            <div class="row justify-content-md-end">
+                <div class="col-sm-12">
+                    <div class="responsive-tabs responsive-tabs-default responsive-tabs-vertical responsive-tabs-vertical-1"
+                         data-custom-hash="true">
+                        <ul class="resp-tabs-list">
+                            <li><a href="#haha">疾病详情</a></li>
+                        </ul>
+                        <div class="resp-tabs-container">
+                            <!-- Tab 1-->
+                            <div class="tab">
+                                <div class="offset-top-10">
+                                    <div class="inset-md-left-24">
+                                        <ul class="list-marked-variant-2">
+                                            <form action="/body/bodydetails" method="get" class="form-horizontal">
+                                                <input type="hidden" th:value="${details.ill_details}" name="body_id">
+                                                <div class="col-sm-6">
+                                                    <h6 class="h5-variant-1">病名</h6>
+                                                    <hr>
+                                                </div>
+                                                <li th:text="${details.ill_name}">Beatae vitae dicta sunt</li>
+                                                <br>
+
+                                                <div class="col-sm-6">
+                                                    <h6 class="h5-variant-1">病因</h6>
+                                                    <hr>
+                                                </div>
+                                                <li th:text="${details.ill_reason}">Beatae vitae dicta sunt</li>
+                                                <br>
+
+                                                <div class="col-sm-6">
+                                                    <h6 class="h5-variant-1">病症</h6>
+                                                    <hr>
+                                                </div>
+                                                <li th:text="${details.ill_details}">Beatae vitae dicta sunt</li>
+                                                <br>
+
+                                                <div class="col-sm-6">
+                                                    <h6 class="h5-variant-1">建议</h6>
+                                                    <hr>
+                                                </div>
+                                                <li th:text="${details.ill_advice}">Beatae vitae dicta sunt</li>
+                                                <br>
+
+                                                <div class="col-sm-6">
+                                                    <h6 class="h5-variant-1">治疗</h6>
+                                                    <hr>
+                                                </div>
+                                                <li th:text="${details.ill_cure}">Beatae vitae dicta sunt</li>
+                                            </form>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+</div>
+<div class="preloader">
+    <div th:replace="menu::myloading"></div>
+</div>
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:DetailTime="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Site Title-->
+    <title>Services</title>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <meta name="description" content="Bootstrap Basic Tab Based Navigation Example">
+    <link href="/try/bootstrap/twitter-bootstrap-v2/docs/assets/css/bootstrap.css" rel="stylesheet">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!--引入css-->
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link rel="stylesheet" href="/css/timeline.css">
+    <!--引入css-->
+
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/component.css"/>
+    <script src="/js/modernizr.custom.js"></script>
+
+</head>
+<body>
+<!-- Page-->
+<div class="page">
+    <!-- Page Header-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!-- Breadcrumbs-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">身体机理</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a href="/body/ch">八大系统</a></li>
+                            <li class="active">疾病发展史</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Responsive-tabs-->
+    <section class="section-30 section-sm-40 section-md-110">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-10 col-xl-8 text-center">
+                    <h5>常见疾病发展</h5>
+                    <div class="divider divider-md divider-primary"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-lg-130 section-sm-top-50 section-sm-bottom-110">
+        <div class="container">
+            <div class="row justify-content-md-end">
+                <div class="col-sm-12">
+                    <div class="responsive-tabs responsive-tabs-default responsive-tabs-vertical responsive-tabs-vertical-1"
+                         data-custom-hash="true">
+                        <ul class="resp-tabs-list" style="color: #0b2e13 ;">
+                            <li><a href="#yaojianpan" style="color:#1b222c;">腰间盘突出</a></li>
+                            <li><a href="#guanjie" style="color:#1b222c;">风湿性关节炎</a></li>
+                            <li><a href="#lanwei" style="color:#1b222c;">慢性阑尾炎</a></li>
+                            <li><a href="#xiaochuan" style="color:#1b222c;">哮喘</a></li>
+                            <li><a href="#niaodu" style="color:#1b222c;">尿毒症</a></li>
+                            <li><a href="#gongjin" style="color:#1b222c;">子宫宫颈癌</a></li>
+                            <li><a href="#tangniao" style="color:#1b222c;">糖尿病</a></li>
+                            <li><a href="#gaoya" style="color:#1b222c;">高血压</a></li>
+                            <li><a href="#chidai" style="color:#1b222c;">老年痴呆</a></li>
+                            <li><a href="#jieshi" style="color:#1b222c;">胆结石</a></li>
+                            <li><a href="#jiehe" style="color:#1b222c;">肺结核</a></li>
+                            <li><a href="#pangguang" style="color:#1b222c;">膀胱炎</a></li>
+                            <li><a href="#ditang" style="color:#1b222c;">低血糖</a></li>
+                            <li><a href="#guanxin" style="color:#1b222c;">冠心病</a></li>
+                            <li><a href="#zuogu" style="color:#1b222c;">坐骨神经痛</a></li>
+                            <li><a href="#qianlie" style="color:#1b222c;">前列腺癌</a></li>
+                        </ul>
+                        <div class="resp-tabs-container">
+                            <!-- Tab 1-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="yaojianpan:${yaojianpan}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${yaojianpan.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${yaojianpan.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 2-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="guanjie:${guanjie}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${guanjie.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${guanjie.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 3-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="lanwei:${lanwei}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${lanwei.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${lanwei.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 4-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h4>Disease Timeline</h4>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="xiaochuan:${xiaochuan}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${xiaochuan.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${xiaochuan.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 5-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="niaodu:${niaodu}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${niaodu.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${niaodu.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 6-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="gongjin:${gongjin}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${gongjin.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${gongjin.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 7-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="tangniao:${tangniao}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${tangniao.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${tangniao.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 8-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="gaoya:${gaoya}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${gaoya.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${gaoya.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 9-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="chidai:${chidai}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${chidai.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${chidai.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 10-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="jieshi:${jieshi}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${jieshi.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${jieshi.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab 11-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="jiehe:${jiehe}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${jiehe.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${jiehe.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 12-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="pangguang:${pangguang}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${pangguang.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${pangguang.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 13-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="ditang:${ditang}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${ditang.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${ditang.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 14-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="guanxin:${guanxin}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${guanxin.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${guanxin.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 15-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="zuogu:${zuogu}">
+                                                <div class="cbp_tmtime">
+                  <span><h4>
+                      <td th:text="${zuogu.ill_stage}"><b>阶段</b></td>
+                      </h4>
+                  </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${zuogu.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Tab 16-->
+                            <div class="tab">
+                                <div class="">
+                                    <header class="clearfix">
+                                        <h3>Disease Timeline</h3>
+                                    </header>
+                                    <div class="main">
+                                        <ul class="cbp_tmtimeline">
+                                            <li th:each="qianlie:${qianlie}">
+                                                <div class="cbp_tmtime">
+                                                    <span><h4><td th:text="${qianlie.ill_stage}"><b>阶段</b></td></h4>
+                                                    </span>
+                                                </div>
+                                                <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                <div class="cbp_tmlabel">
+                                                    <div>
+                                                        <span th:text="${qianlie.ill_introduce}">
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+</div>
+<div class="preloader">
+    <div th:replace="menu::myloading"></div>
+</div>
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

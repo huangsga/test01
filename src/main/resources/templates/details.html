@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!--新冠相关数据展示-->
+    <script src="/assets/js/echarts.min.js"></script>
+    <script src="/assets/js/jquery-3.4.1.min.js"></script>
+    <!-- Site Title-->
+    <title>故事化资讯网站新冠专题</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+
+<style type="text/css">
+    #box {
+        /* 父容器设置宽度, 并超出部分不显示 */
+        width: 500px;
+        height: 400px;
+        overflow: hidden;
+    }
+
+    #box > div {
+        /* 子容器比父容器的宽度多 17 px, 经测正好是滚动条的默认宽度 */
+        width: 517px;
+        height: 400px;
+        line-height: 30px;
+        text-align: center;
+        overflow-y: scroll;
+    }
+</style>
+<body>
+<!--开始-->
+<div class="page">
+    <!--导航条-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!--标题-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">新冠专题</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a th:href="@{/user/index}">首页</a></li>
+                            <li><a th:href="@{/xinguan/zhuanti}">新冠专题</a></li>
+                            <li class="active">事件详情</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--中间内容-->
+    <br><br>
+    <div align="center">
+        <div class="table-responsive">
+            <table border="0">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata1}">
+                    </br>
+                    <td th:text="${ViewEventData1.event_abstract}"><b>事件标题</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table border="0">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata1}">
+                    </br>
+                    <td th:text="${#dates.format(ViewEventData1.pub_time,'yyyy/MM/dd')}"><b>发布时间</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table border="0" width="1000px">
+
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata1}">
+                    </br>
+                    <td th:text="${ViewEventData1.event_details}"><b>发布时间</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </br></br>
+        <div class="table-responsive">
+            <table border="0">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata11}">
+                    </br>
+                    <td th:text="${ViewEventData1.event_abstract}"><b>事件标题</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table border="0">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata11}">
+                    </br>
+                    <td th:text="${#dates.format(ViewEventData1.pub_time,'yyyy/MM/dd')}"><b>发布时间</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table border="0" width="1000">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata11}">
+                    </br>
+                    <td th:text="${ViewEventData1.event_details}"><b>发布时间</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </br></br>
+        <div class="table-responsive">
+            <table border="0">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata111}">
+                    </br>
+                    <td th:text="${ViewEventData1.event_abstract}"><b>事件标题</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table border="0">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata111}">
+                    </br>
+                    <td th:text="${#dates.format(ViewEventData1.pub_time,'yyyy/MM/dd')}"><b>发布时间</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table border="0" width="1000">
+                <tbody>
+                <tr th:each="ViewEventData1:${eventdata111}">
+                    </br>
+                    <td th:text="${ViewEventData1.event_details}"><b>发布时间</b></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br><br>
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+    <div class="preloader">
+        <div th:replace="menu::myloading"></div>
+    </div>
+</div>
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

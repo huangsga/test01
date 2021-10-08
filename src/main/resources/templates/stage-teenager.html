@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="/js/echarts.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/component.css"/>
+    <script src="/js/modernizr.custom.js"></script>
+    <!-- Site Title-->
+    <title>故事化资讯网站年龄发展——青少年</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+<body>
+<!--开始-->
+<section class="page">
+    <!--导航条-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!--标题-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">青少年时期</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a th:href="@{/user/index}">首页</a></li>
+                            <li><a>年龄阶段</a></li>
+                            <li class="active">青少年时期</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--echarts图-->
+    <div class="swiper-container swiper-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <div class="container text-center text-md-left">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="swiper-slide-text">
+                                    <!--<h5 class="text-style-1">-->
+                                    青少年阶段:青少年是青春期的年龄。青春期是儿童转变成人角色的过渡时期，青少年一般是指自上初中到高中毕业，初中阶段:13-15岁、高中阶段:16到成年，要经历6年时间的中学阶段。古时指年轻的男女、今指青年和少年。
+                                    学者们认为很难给青春期下一个准确的定义，因为它可以从不同角度来理解。
+                                    在当今社会，对青春期的一个全面的理解来源于各个角度的信息，最重要的包括信息来自于心理学，生理学，历史，社会学，教育学以及人类学。
+                                    从所有的这些观点和角度来看，我们可以解释青春期是一段改变、转化的时期。它的目的是让孩子能够为自己成人角色的转换做准备。👊
+                                    <!--</h5>-->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img
+                                        src="/images/teenager.jpg"
+                                        alt=""
+                                        width="1000"
+                                        height="600"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="#">
+                                <form method="post" action="/stu/sc" class="form-inline"></form>
+                                <div class="container">
+                                    <div class="echartbt"
+                                         style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                        <div id="main" style="width:750px;height:400px;background:white">
+                                            <script th:inline="javascript">
+                                                let arr;
+                                                var myChart = echarts.init(document.getElementById('main'));
+                                                var aa = [[${tstage}]];
+                                                var mydata = [];
+                                                var title = [];
+                                                aa.forEach(function (item) {
+                                                    console.log(typeof (item.age) + "---" + typeof (item.ill_name));
+                                                    title.push(item.ill_name);
+                                                    mydata.push(item.age)
+                                                })
+                                                option = {
+                                                    backgroundColor: 'white',
+                                                    title: {
+                                                        text: '青少年时期常见疾病及患病年龄',
+                                                        left: 'center'
+
+                                                    },
+                                                    tooltip: {
+                                                        trigger: 'axis',
+                                                        axisPointer: {
+                                                            type: 'shadow'
+                                                        }
+                                                    },
+                                                    xAxis: {
+                                                        name: '疾病名称',
+                                                        type: 'category',
+                                                        data: title
+                                                    },
+                                                    yAxis: {
+                                                        name: '年龄',
+                                                        type: 'value'
+
+                                                    },
+                                                    series: [{
+                                                        data: mydata,
+                                                        type: 'line'
+                                                    }]
+                                                };
+                                                myChart.setOption(option);
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#">
+                                <form method="post" action="/stu/st" class="form-inline"></form>
+                                <div class="container">
+                                    <div class="echartbt"
+                                         style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                        <div id="main2" style="width:750px;height:400px;background:white">
+                                            <script th:inline="javascript">
+                                                var myChart = echarts.init(document.getElementById('main2'));
+                                                var aa = [[${tage}]];
+                                                var mydata = [];
+                                                var title = [];
+                                                var Mydata = [];
+                                                aa.forEach(function (item) {
+                                                    // console.log(typeof(item.age)+"---"+typeof(item.count));
+                                                    var obj = {value: 0, name: ''};
+                                                    obj.value = item.count;
+                                                    obj.name = item.age;
+                                                    mydata.push(item.count);
+                                                    title.push(item.age);
+                                                    Mydata.push(obj);
+                                                })
+                                                console.log(mydata)
+                                                console.log(title)
+                                                myChart.setOption({
+                                                    backgroundColor: 'white',
+                                                    title: {
+                                                        text: '青少年时期各年龄疾病数统计',
+                                                        left: 'center'
+                                                    },
+                                                    tooltip: {
+                                                        trigger: 'item',
+                                                        formatter: '{a} <br/>{b}: {c} ({d}%)'
+                                                    },
+                                                    legend: {
+                                                        top: 'bottom',
+                                                        data: title
+                                                    },
+                                                    series: [
+                                                        {
+                                                            name: '面积模式',
+                                                            type: 'pie',
+                                                            center: ['50%', '50%'],
+                                                            roseType: 'area',
+                                                            data: Mydata,
+                                                        }
+                                                    ]
+                                                })
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="swiper-slide-caption">
+                    <a href="#">
+                        <form method="post" action="/stu/sc" class="form-inline"></form>
+                        <div class="container">
+                            <div class="echartbt"
+                                 style="display:flex;flex-direction:row;justify-content: space-between;flex-wrap: nowrap;">
+                                <div id="main1" style="width:1200px;height:500px;background:white">
+                                    <script th:inline="javascript">
+                                        var myChart = echarts.init(document.getElementById('main1'));
+                                        myChart.setOption({
+                                            backgroundColor: 'white',
+                                            title: {
+                                                text: '青少年时期常见疾病介绍',
+                                                left: 'center'
+                                            },
+                                            series: [
+                                                {
+
+                                                    name: '访问来源',
+                                                    type: 'pie',    // 设置图表类型为饼图
+                                                    radius: '40%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                                                    data: [          // 数据数组，name 为数据项名称，value 为数据项值
+                                                        {
+                                                            value: 1, name: '中小学生正处在长身体、长知识时期，由于文化学习的需要，\n' +
+                                                                '长时间进行视近工作废近距离用眼作业。如在学习期间由于负担挥重，\n' +
+                                                                '教室采光照明不良，课桌椅与身高不配套，不注意正确的读书写字姿势，\n' +
+                                                                '均可造成近视的发生和发展。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '龋病及牙周疾病是影响儿童青少年健康和生长发育最 常见的口腔\n' +
+                                                                '疾病。我国学生的龋齿患病情况严重，而且随着生活 水平的提高呈逐渐\n' +
+                                                                '上升的趋势，学生牙周病患病尤为突出。因此， 我们要从学生口腔健康\n' +
+                                                                '教育入手，提高学生口腔健康意识，培养 学生良好的口腔卫生习惯。\n' +
+                                                                '龋齿是口腔中的食物残渣附着在牙齿上经过发酵产生酸形 成牙菌斑。\n' +
+                                                                '可将龋齿分为三度即浅龋、中龋和深龋。俗话说“牙 疼不是病，痛起来\n' +
+                                                                '要人命”。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '沙眼是常见的慢性传染病，是由沙眼衣原体病毒感染 引起的一种\n' +
+                                                                '慢性传染病。人对沙眼衣原体的免疫力很弱，可以重 复感染，常因并发\n' +
+                                                                '症而使视力受到障碍，沙眼的发病率与卫生状 况及环境因素有明显关系，\n' +
+                                                                '但是沙眼是可防性的眼病，因此要让 孩子掌握防治沙眼的卫生常识。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '痤疮是毛囊、皮脂腺的一种慢性炎症性皮肤病，也是美容皮肤科最常见\n' +
+                                                                '的病种之一。通常好发于面颈部、胸背部、肩膀和上臂，临床以白头粉刺、\n' +
+                                                                '黑头粉刺、炎性丘疹、脓疱、结节、囊肿等为主要表现。这种疾病青春期多见，\n' +
+                                                                '但也不完全受年龄阶段的限制，从儿童到成人几乎所有年龄段的人都可以发病。'
+                                                        },
+                                                        {
+                                                            value: 1, name: '过敏反应（anaphylaxis）又称过敏症或超敏反应，是一种急性的、\n' +
+                                                                '全身性的、严重到甚至危及生命的变态反应，是在患者以前被某种变应原致敏\n' +
+                                                                '后再次接触同一变应原时发生的。'
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        })
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    <!-- Swiper Pagination-->
+    <div class="swiper-pagination-wrap">
+        <div class="container">
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    </div>
+    <!--年龄阶段发展-->
+    <section class="section-80 section-md-110 bg-light">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 col-lg-4">
+
+                    <div id="main3" style="width:1200px;height:500px;background:white">
+                        <script th:inline="javascript">
+                            var myChart = echarts.init(document.getElementById('main3'));
+                            var option = {
+                                //timeline基本配置都写在baseoption 中
+                                baseOption: {
+                                    timeline: {
+                                        //loop: false,
+                                        axisType: 'category',
+                                        show: true,
+                                        autoPlay: true,
+                                        playInterval: 1000,
+                                        data: ['前期', '中期', '后期'],
+                                    },
+                                    grid: {containLabel: true},
+                                    xAxis: [{
+                                        type: 'category',
+                                        name: '疾病名称',
+                                    },],
+                                    yAxis: {type: 'value', name: '人'},
+                                    series: [
+                                        {
+                                            type: 'line',
+                                        },
+                                    ],
+                                    tooltip: {}
+                                },
+                                //变量则写在options中
+                                options: [
+                                    {
+                                        xAxis: [{
+                                            data: ['过敏性皮炎', '哮喘病', '铅中毒', '小儿鼻出血', '近视眼', '营养不良和单纯性肥胖', '贫血', '脊柱弯曲异常', '沙眼', '胃病', '月经不调', '痤疮', '过敏症', '膀胱炎']
+                                        }],
+                                        title: {
+                                            text: '青少年阶段常见疾病发病人数',
+                                            subtext: '单位:人'
+                                        },
+                                        series: [
+                                            {
+                                                data: [120, 450, 140, 100, 80, 70, 200, 300, 400, 300, 400, 200, 280, 300]
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        xAxis: [{
+                                            data: ['过敏性皮炎', '哮喘病', '铅中毒', '小儿鼻出血', '近视眼', '营养不良和单纯性肥胖', '贫血', '脊柱弯曲异常', '沙眼', '胃病', '月经不调', '痤疮', '过敏症', '膀胱炎']
+                                        }],
+                                        title: {
+                                            text: '青少年阶段常见疾病发病人数',
+                                            subtext: '单位:人'
+                                        },
+                                        series: [
+                                            {
+                                                data: [530, 130, 780, 600, 800, 670, 450, 500, 700, 550, 300, 400, 600, 400, 300]
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        xAxis: [{
+                                            data: ['过敏性皮炎', '哮喘病', '铅中毒', '小儿鼻出血', '近视眼', '营养不良和单纯性肥胖', '贫血', '脊柱弯曲异常', '沙眼', '胃病', '月经不调', '痤疮', '过敏症', '膀胱炎']
+                                        }],
+                                        title: {
+                                            text: '青少年阶段常见疾病发病人数',
+                                            subtext: '单位:人'
+                                        },
+                                        series: [
+                                            {
+                                                data: [560, 350, 180, 100, 300, 400, 500, 200, 300, 200, 100, 600, 150, 500, 300]
+                                            },
+
+                                        ]
+                                    },
+                                ]
+                            }
+                            myChart.setOption(option);
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!--查询-时间轴-->
+    <section class="section-80 section-md-110 bg-gray-lighter">
+        <div class="container">
+            <div class="row justify-content-md-center text-center">
+                <div class="col-md-9 col-lg-12">
+                    <h2>青少年时期常见疾病及建议</h2>
+                    <div class="divider divider-md divider-primary"></div>
+                    <p class="offset-top-30 offset-md-top-55">
+                    <div class="clo-lg-12">
+                        <form method="post" action="/stu/st" class="form-horizontal">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3"></div>
+                                <div class="col-sm-6 col-md-3"></div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <select class="form-control" name="tname">
+                                                <option value="10">---请选择相关疾病进行查询---</option>
+                                                <option th:each="IllInfo:${tstage}"
+                                                        th:value="${IllInfo.ill_id}"
+                                                        th:text="${IllInfo.ill_name}"
+                                                        th:selected="${IllInfo.ill_id==ill_id}"
+                                                ></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <button class="btn btn-primary btn-lg" type="submit">查询</button>
+                                </div>
+                            </div>
+                            <tr th:each="IllInfo :${tname}">
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <header class="clearfix">
+                                            <h5>青少年阶段各年龄相关疾病</h5>
+                                        </header>
+                                        <div class="main">
+                                            <ul class="cbp_tmtimeline">
+                                                <li th:each="IllInfo:${tstage}">
+                                                    <time class="cbp_tmtime" datetime="4">
+                                                        <span><h5><td
+                                                                th:text="${IllInfo.age}"><b>点击数</b></td></h5></span>
+                                                    </time>
+                                                    <div class="cbp_tmicon cbp_tmicon-mail"></div>
+                                                    <div class="cbp_tmlabel">
+                                                        <span><td th:text="${IllInfo.ill_name}"></td></span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <header class="clearfix">
+                                            <h5>您所查询的是：
+                                                <td th:text="${IllInfo.ill_name}"></td>
+                                            </h5>
+                                        </header>
+                                        <div>
+                                            <div class="offset-top-30 box-custom hot">
+                                                <h5 class="box-custom-header">
+                                                    <a href="#">简介</a>
+                                                </h5>
+                                                <ul class="list-meta-variant-1">
+                                                    <li>
+                                                        <td th:text="${IllInfo.ill_name}"></td>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+
+                                        <br>
+                                        <div>
+                                            <div class="box-custom hot">
+                                                <h5 class="box-custom-header">
+                                                    <a href="#">原因</a>
+                                                </h5>
+                                                <ul class="list-meta-variant-1">
+                                                    <li>
+                                                        <td th:text="${IllInfo.ill_reason}"></td>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <br>
+                                        <div>
+                                            <div class="box-custom hot">
+                                                <h5 class="box-custom-header">
+                                                    <a href="#">详情</a>
+                                                </h5>
+                                                <ul class="list-meta-variant-1">
+                                                    <li>
+                                                        <td th:text="${IllInfo.ill_details}"></td>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <br>
+                                        <div>
+                                            <div class="box-custom hot">
+                                                <h5 class="box-custom-header">
+                                                    <a href="#">建议</a>
+                                                </h5>
+                                                <ul class="list-meta-variant-1">
+                                                    <li>
+                                                        <td th:text="${IllInfo.ill_advice}"></td>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        </form>
+                    </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+    <div class="preloader">
+        <div th:replace="menu::myloading"></div>
+    </div>
+    <!-- Javascript-->
+    <script src="/js/core.min.js"></script>
+    <script src="/js/script.js"></script>
+    </form>
+</section>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单代码块</title>
+    <script th:src="@{/js/jquery.min.js}" rel="stylesheet"></script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script th:inline="javascript">
+        window.onload = function () {
+            var farmName = [[${userLoginUserName}]]; // 即可获取
+            console.log("farmName ==> " + farmName)
+            if (farmName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!--后端侧边栏-->
+<div class="nano" th:fragment="mymenu">
+    <ul class="nav nav-pills nav-stacked custom-nav">
+        <li class="menu-list nav-active">
+            <a href="#"
+            ><i class="icon-home"></i> <span>用户信息管理</span></a
+            >
+            <ul class="sub-menu-list">
+                <li><a href="/user/list">注册信息统计</a></li>
+                <li><a href="/doubt/doubt-list">留言提问回复</a></li>
+                <li><a href="/doc/add">医生信息添加</a></li>
+                <li><a href="/doc/list">医生信息统计</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-list">
+            <a href="#"><i class="icon-layers"></i> <span>新冠专题页面管理</span></a>
+            <ul class="sub-menu-list">
+                <li><a href="/event/EDadd">专题数据添加</a></li>
+                <li><a href="/event/abc">专题数据统计</a></li>
+                <li><a href="/event1/EventInfoadd">专题事件添加</a></li>
+                <li><a href="/event1/abc1">专题事件统计</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-list">
+            <a href="#"><i class="icon-grid"></i> <span>身体机理页面管理</span></a>
+            <ul class="sub-menu-list">
+                <li><a href="/body/bodyadd">系统疾病数据添加</a></li>
+                <li><a href="/body/bodylist">系统疾病数据统计</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-list">
+            <a href="#"><i class="icon-envelope-open"></i> <span>年龄阶段页面管理</span></a>
+            <ul class="sub-menu-list">
+                <li><a href="/stu/add">年龄疾病数据添加</a></li>
+                <li><a href="/stu/web">年龄疾病数据统计</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-list">
+            <a href="#"><i class="icon-pie-chart"></i> <span>用户数据分析</span></a>
+            <ul class="sub-menu-list">
+                <li><a href="/user/sysLog">登录日志查看</a></li>
+                <li><a href="/user/us">用户数据统计</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<!--后端导航条-->
+<div th:fragment="mytopbar">
+    <div class="header-section">
+<!--        <a class="toggle-btn"><i class="fa fa-bars"></i></a>-->
+<!--        <form class="searchform">-->
+<!--            <input-->
+<!--                    type="text"-->
+<!--                    class="form-control"-->
+<!--                    name="keyword"-->
+<!--                    placeholder="Search here..."-->
+<!--            />-->
+<!--        </form>-->
+
+        <!--notification menu start -->
+        <div class="menu-right">
+            <ul class="notification-menu">
+                <li>
+                    <a
+                            href="#"
+                            class="btn btn-default dropdown-toggle info-number"
+                            data-toggle="dropdown"
+                    >
+                        <i class="fa fa-tasks"></i>
+                        <span class="badge">8</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-head pull-right">
+                    </div>
+                </li>
+
+                <li>
+                    <a
+                            href="#"
+                            class="btn btn-default dropdown-toggle info-number"
+                            data-toggle="dropdown"
+                    >
+                        <i class="fa fa-bell-o"></i>
+                        <span class="badge">4</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-head pull-right">
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <img src="/assets/images/users/avatar-6.jpg" alt=""/>
+                        <div th:text="${session[userinfo].user_name}"></div>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                        <li><a th:href="@{/user/index}"> <i class="fa fa-wrench"></i>首页登录</a></li>
+                        <li><a th:href="@{/user/logout}"> <i class="fa fa-lock"></i>退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--notification menu end -->
+    </div>
+</div>
+
+<!--前端导航条-->
+<div th:fragment="mybar">
+    <div class="rd-navbar-wrap">
+        <nav
+                class="rd-navbar rd-navbar-corporate"
+                data-layout="rd-navbar-fixed"
+                data-sm-layout="rd-navbar-fixed"
+                data-md-device-layout="rd-navbar-fixed"
+                data-md-layout="rd-navbar-fixed"
+                data-lg-layout="rd-navbar-static"
+                data-lg-device-layout="rd-navbar-static"
+                data-stick-up-clone="false"
+                data-md-stick-up-offset="199px"
+                data-lg-stick-up-offset="199px"
+                data-stick-up="true"
+                data-sm-stick-up="true"
+                data-md-stick-up="true"
+                data-lg-stick-up="true"
+                data-xl-device-layout="rd-navbar-static"
+                data-xl-layout="rd-navbar-static"
+                data-xxl-layout="rd-navbar-static"
+                data-xxl-device-layout="rd-navbar-static"
+        >
+            <div class="rd-navbar-inner">
+                <div class="rd-navbar-middle-panel">
+                    <!-- RD Navbar Panel-->
+                    <div class="rd-navbar-panel">
+                        <!-- RD Navbar Toggle-->
+                        <button
+                                class="rd-navbar-toggle"
+                                data-rd-navbar-toggle=".rd-navbar-outer-panel"
+                        >
+                            <span></span>
+                        </button>
+                        <!-- RD Navbar Brand--><a
+                            class="rd-navbar-brand"
+                            href="index.html"
+                    ><img
+                            src="/images/logo.png"
+                            alt=""
+                            width="216"
+                            height="49"
+                    /></a>
+                    </div>
+                    <div class="rd-navbar-aside">
+                        <div
+                                class="rd-navbar-aside-toggle"
+                                data-rd-navbar-toggle=".rd-navbar-aside"
+                        >
+                            <span></span>
+                        </div>
+                        <div class="rd-navbar-aside-content">
+                            <ul class="block-wrap-list">
+                                <li class="block-wrap">
+                                    <div class="unit flex-column flex-md-row justify-content-center align-items-center unit-spacing-xxs">
+                                        <div class="unit-left">
+                                            <span class="icon icon-circle-sm icon-sm-variant-1 icon-primary-filled icon-white mdi mdi-map-marker"></span>
+                                        </div>
+                                        <div class="unit-body">
+                                            <address class="contact-info">
+                                                <span id="city"></span>
+                                                <span id="time"></span>
+                                            </address>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="rd-navbar-outer-panel">
+                    <div class="rd-navbar-nav-wrap">
+                        <ul class="rd-navbar-nav">
+                            <li class="rd-nav-item active">
+                                <a class="rd-nav-link" th:href="@{/user/index}">首页</a>
+                            </li>
+                            <li class="rd-nav-item">
+                                <a class="rd-nav-link" th:href="@{/xinguan/zhuanti}"
+                                >新冠专题</a
+                                >
+                            </li>
+                            <li class="rd-nav-item">
+                                <a class="rd-nav-link" th:href="@{/body/ch}">身体机理</a>
+                            </li>
+                            <li class="rd-nav-item">
+                                <a class="rd-nav-link">年龄阶段</a>
+                                <ul class="rd-menu rd-navbar-megamenu">
+                                    <li class="rd-megamenu-item">
+                                        <ul class="rd-megamenu-list list-marked-variant-1">
+                                            <li class="rd-megamenu-list-item">
+                                                <a
+                                                        class="rd-megamenu-list-link"
+                                                        th:href="@{/stu/sc}"
+                                                >婴幼儿时期</a
+                                                >
+                                            </li>
+                                            <li class="rd-megamenu-list-item">
+                                                <a
+                                                        class="rd-megamenu-list-link"
+                                                        th:href="@{/stu/st}"
+                                                >青少年时期</a
+                                                >
+                                            </li>
+                                            <li class="rd-megamenu-list-item">
+                                                <a
+                                                        class="rd-megamenu-list-link"
+                                                        th:href="@{/stu/sm}"
+                                                >中年时期</a
+                                                >
+                                            </li>
+                                            <li class="rd-megamenu-list-item">
+                                                <a
+                                                        class="rd-megamenu-list-link"
+                                                        th:href="@{/stu/so}"
+                                                >老年时期</a
+                                                >
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="rd-nav-item">
+                                <a class="rd-nav-link" th:href="@{/doc/doctor}">专家资源</a>
+                            </li>
+                        </ul>
+                        <div class="rd-navbar-search">
+                            <!-- RD Search-->
+                            <form
+                                    class="rd-search"
+                                    action="search-results.html"
+                                    method="GET"
+                                    data-search-live="rd-search-results-live"
+                            >
+                                <div class="form-wrap">
+                                    <label class="form-label" for="rd-search-form-input"
+                                    >Search...</label
+                                    >
+                                    <input
+                                            class="form-input"
+                                            id="rd-search-form-input"
+                                            type="text"
+                                            name="s"
+                                            autocomplete="off"
+                                    />
+                                    <div
+                                            class="rd-search-results-live"
+                                            id="rd-search-results-live"
+                                    ></div>
+                                    <button
+                                            class="rd-navbar-search-submit"
+                                            type="submit"
+                                    ></button>
+                                </div>
+                            </form>
+                            <button
+                                    class="rd-navbar-search-toggle"
+                                    data-rd-navbar-toggle=".rd-navbar-search"
+                            ></button>
+                        </div>
+                    </div>
+                    <div class="rd-navbar-top-panel">
+                        <div class="rd-navbar-top-panel-inner">
+                            <ul class="list-inline list-inline-xs">
+                                <li>
+                                    <a
+                                            class="icon icon-xs icon-primary fa-facebook"
+                                            href="#"
+                                    ></a>
+                                </li>
+                                <li>
+                                    <a
+                                            class="icon icon-xs icon-primary fa-twitter"
+                                            href="#"
+                                    ></a>
+                                </li>
+                                <li>
+                                    <a
+                                            class="icon icon-xs icon-primary fa-pinterest-p"
+                                            href="#"
+                                    ></a>
+                                </li>
+                                <li>
+                                    <a
+                                            class="icon icon-xs icon-primary fa-vimeo"
+                                            href="#"
+                                    ></a>
+                                </li>
+                                <li>
+                                    <a
+                                            class="icon icon-xs icon-primary fa-google"
+                                            href="#"
+                                    ></a>
+                                </li>
+                                <li>
+                                    <a
+                                            class="icon icon-xs icon-primary fa-rss"
+                                            href="#"
+                                    ></a>
+                                </li>
+                            </ul>
+                            <p class="rd-navbar-fixed--hidden">
+                                欢迎来到故事化资讯网站！
+                            </p>
+                            <a class="btn btn-xs btn-light" id="btnLogin" th:href="@{/user/login}"
+                            >登录 | 注册</a
+                            >
+                            <a class="btn btn-xs btn-light" id="btnLogout" th:href="@{/user/userLogout}"
+                            >退出登录</a
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<!--前端，footer-->
+<div th:fragment="myfooter">
+    <div class="container text-center text-md-left">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10 col-lg-12">
+                <div class="row justify-content-lg-between">
+                    <div class="col-md-6 col-lg-3 wrap-lg-justify-vertical">
+                        <!-- Logo-->
+                        <div class="logo">
+                            <a class="logo-link" href="index.html"
+                            ><img
+                                    class="logo-image-default"
+                                    src="/images/logo.png"
+                                    alt="Penoxy"
+                                    width="216"
+                                    height="49"/><img
+                                    class="logo-image-inverse"
+                                    src="/images/logo.png"
+                                    alt="Penoxy"
+                                    width="216"
+                                    height="49"
+                            /></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4 offset-top-55 offset-md-top-0">
+                        <div class="max-width-300">
+                            <h5 class="h5-variant-1">留下您宝贵的意见</h5>
+                            <hr/>
+                            <!-- RD Mailform-->
+                            <form class="rd-mailform rd-mailform-inline rd-mailform-inline-sm offset-top-10"
+                                  data-form-output="form-output-global" data-form-type="subscribe">
+                                <div class="form-wrap">
+                                    <label class="form-label" for="footer-subscribe-email">输入您的邮箱</label>
+                                    <input class="form-input" id="footer-subscribe-email" type="email" name="email">
+                                </div>
+                                <button class="btn btn-xs btn-light btn-no-shadow" type="sunbmit">提交</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-xl-5 offset-top-55 offset-md-top-0">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h5 class="h5-variant-1">联系我们</h5>
+                                <hr/>
+                            </div>
+                            <div class="col-xs-5 col-md-6 col-lg-12 col-xl-6 offset-top-18 text-xs-left">
+                                <address class="contact-info">
+                                    <div class="unit flex-column flex-xs-row unit-spacing-xs">
+                                        <div class="unit-left icon-adjust-vertical">
+                                            <span class="icon icon-xs icon-white mdi mdi-phone"></span>
+                                        </div>
+                                        <div class="unit-body">
+                                            <span>1-800-1234-567</span>
+                                            <span>1-800-3214-951</span>
+                                        </div>
+                                    </div>
+                                </address>
+                            </div>
+                            <div class="col-xs-7 col-md-6 col-lg-12 col-xl-6 offset-top-22 offset-xs-top-18 inset-xl-left-9 text-xs-left">
+                                <address class="contact-info">
+                                    <div class="unit flex-column flex-xs-row unit-spacing-xs">
+                                        <div class="unit-left icon-adjust-vertical">
+                                            <span class="icon icon-xs icon-white mdi mdi-email-outline"></span>
+                                        </div>
+                                        <div class="unit-body">
+                                            <span>info@demolink.org</span>
+                                            <span>info@cloud.com</span>
+                                        </div>
+                                    </div>
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--前端，loading-->
+<div th:fragment="myloading">
+    <div class="preloader-body">
+        <div class="preloader-loading">
+            <p>Loading</p>
+            <span></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

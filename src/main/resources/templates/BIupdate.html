@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="/assets/images/favicon.png" type="image/png"/>
+    <title>事件信息页面！</title>
+    <link href="/assets/css/icons.css" rel="stylesheet"/>
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/assets/css/style.css" rel="stylesheet"/>
+    <link href="/assets/css/responsive.css" rel="stylesheet"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+<!--Start left side Menu-->
+<div class="left-side sticky-left-side">
+    <!--logo-->
+    <div class="logo">
+        <a href="index.html"><img src="/assets/images/logo.png" alt=""/></a>
+    </div>
+
+    <div class="logo-icon text-center">
+        <a href="index.html"
+        ><img src="/assets/images/logo-icon.png" alt=""
+        /></a>
+    </div>
+    <!--logo-->
+
+    <div class="left-side-inner">
+        <!--Sidebar nav-->
+        <div class="nano" th:replace="menu::mymenu">
+        </div>
+        <!--End sidebar nav-->
+    </div>
+</div>
+<!--End left side menu-->
+
+<!-- main content start-->
+<div class="main-content">
+    <!-- header section start-->
+    <div class="header-section">
+        <div th:replace="menu::mytopbar">
+        </div>
+    </div>
+    <!-- header section end-->
+
+    <!--body wrapper start-->
+    <div class="wrapper">
+        <!--Start Page Title-->
+        <div class="page-title-box">
+            <h4 class="page-title">Form Basic</h4>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                <li>
+                    <a href="#">Form</a>
+                </li>
+                <li class="active">Form Basic</li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+        <!--End Page Title-->
+
+
+        <!-- 中间内容开始 -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white-box">
+                    <h2 class="header-title">人体机理疾病信息修改页面！</h2>
+                    <form action="/body/bodyupdate" method="post" class="form-horizontal">
+                        <input type="hidden" th:value="${BodyInfo.body_id}" name="body_id">
+                        <div class="form-group">
+                            <label for="inputPassword33" class="col-md-2 control-label">系统名称</label>
+                            <div class="col-md-10">
+                                <input type="text" th:value="${BodyInfo.bodysystem}" name="bodysystem"
+                                       class="form-control" id="inputPassword33" placeholder="系统名称">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword35" class="col-md-2 control-label">疾病名称</label>
+                            <div class="col-md-10">
+                                <input type="text" th:value="${BodyInfo.ill_name}" name="ill_name" class="form-control"
+                                       id="inputPassword35" placeholder="疾病名称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword36" class="col-md-2 control-label">疾病原因</label>
+                            <div class="col-md-10">
+                                <textarea rows="5" th:text="${BodyInfo.ill_reason}" name="ill_reason"
+                                          class="form-control" id="inputPassword36" placeholder="疾病原因"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword37" class="col-md-2 control-label">疾病症状</label>
+                            <div class="col-md-10">
+                                <textarea rows="5" th:text="${BodyInfo.ill_details}" name="ill_details"
+                                          class="form-control" id="inputPassword37" placeholder="疾病症状"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword38" class="col-md-2 control-label">医生建议</label>
+                            <div class="col-md-10">
+                                <textarea rows="5" th:text="${BodyInfo.ill_advice}" name="ill_advice"
+                                          class="form-control" id="inputPassword38" placeholder="医生建议"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword39" class="col-md-2 control-label">治疗方式</label>
+                            <div class="col-md-10">
+                                <textarea rows="5" th:text="${BodyInfo.ill_cure}" name="ill_cure" class="form-control"
+                                          id="inputPassword39" placeholder="治疗方式"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <button type="submit" class="btn btn-default col-sm-offset-6">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 中间内容结束 -->
+    <footer class="footer-main">
+        Copyright &copy; 2020-故事化资讯网站-No.5 All rights reserved.
+    </footer>
+</div>
+
+<script src="/js/jquery-1.12.4.min.js"></script>
+<script src="/js/jquery.plugin-countdown.min.js"></script>
+<script src="/js/jquery-countdown.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/magnific-popup.min.js"></script>
+<script src="/js/isotope.min.js"></script>
+<script src="/js/jquery.scrollbar.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/mobile-menu.js"></script>
+<script src="/js/chosen.min.js"></script>
+<script src="/js/slick.js"></script>
+<script src="/js/jquery.elevateZoom.min.js"></script>
+<script src="/js/jquery.actual.min.js"></script>
+<script src="/js/lightbox.min.js"></script>
+<script src="/js/owl.thumbs.min.js"></script>
+<script src="/js/jquery.scrollbar.min.js"></script>
+<script src="https://ditu.google.cn/maps/api/js?key=AIzaSyC3nDHy1dARR-Pa_2jjPCjvsOR4bcILYsM"></script>
+<script src="/js/frontend-plugin.js"></script>
+</body>
+</html>

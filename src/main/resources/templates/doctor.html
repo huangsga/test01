@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Site Title-->
+    <title>故事化资讯网站医生资源</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <!--  <script src="/js/jquery.min.js" ></script>-->
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function checkLogin() {
+            var checkName = [[${userLoginUserName}]];
+            if (checkName == null) {
+                // alert("您需要先登录，才可以提问哦");
+                alert("您需要先登录，才可以提问哦!");
+                var element = event.screlement;
+                element.parentNode.innerHTML = element.parentNode.innerHTML;
+            }
+        }
+        function showTime(){
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日","一",'二','三','四','五','六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month +"月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()",500);
+        }
+        //格式化时间：分秒。
+        function formatTime (i){
+            if(i < 10){
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- Page-->
+<div class="page">
+    <!-- Page Header-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!-- Breadcrumbs-->
+    <section class="section-40 section-lg-64 bg-light-05">
+        <div class="breadcrumbs-wrap">
+            <div class="container text-center">
+                <div class="wrap-sm-justify-horizontal">
+                    <div class="text-md-left">
+                        <h1 class="breadcrumbs-custom-title">医生资源</h1>
+                    </div>
+                    <div class="offset-top-22 offset-md-top-0 text-md-right">
+                        <ul class="breadcrumbs-custom">
+                            <li><a th:href="@{/user/index}">首页</a></li>
+                            <li class="active">医生资源</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Four Plans-->
+    <section class="section-top-60 section-sm-top-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>心理精神科</h5>
+                    <hr/>
+                </div>
+            </div>
+            <div
+                    class="row justify-content-md-center align-items-md-center offset-top-30"
+            >
+                <div class="col-md-6 col-xl-3" th:each="DoctorInfoOne:${docInfoOne}">
+                    <div class="pricing-table pricing-table-style-lighter pricing-table-preferred-variant-1">
+                        <div class="pricing-table-header">
+                            <h6 class="pricing-table-heading" th:text="${DoctorInfoOne.doc_name}">Ultimate</h6>
+                        </div>
+                        <div class="pricing-table-body">
+                            <ul class="list-bordered">
+                                <li><p th:text="${DoctorInfoOne.doc_title}">Free Consultation</p></li>
+                                <li><p th:text="${DoctorInfoOne.doc_hospital}">Electrical Repair</p></li>
+                                <li><p th:text="${DoctorInfoOne.doc_awards}">Annual Servicing</p></li>
+                                <li><p th:text="${DoctorInfoOne.doc_details}">Plumber Services</p></li>
+                            </ul>
+                        </div>
+                        <div class="pricing-table-footer">
+                            <a class="btn btn-primary" th:href="@{'/doc/passDoc_name/'+${DoctorInfoOne.doc_id}}"
+                               onmousedown="checkLogin()">在线提问</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Three Plans-->
+    <section class="section-top-60 section-sm-top-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>妇产科</h5>
+                    <hr/>
+                </div>
+            </div>
+            <div class="row row-30 align-items-md-center offset-top-30">
+                <div class="col-md-6 col-lg-4" th:each="DoctorInfoTwo:${docInfoTwo}">
+                    <div class="pricing-table pricing-table-style-lighter">
+                        <div class="pricing-table-header">
+                            <h6 class="pricing-table-heading" th:text="${DoctorInfoTwo.doc_name}">Ultimate</h6>
+                        </div>
+                        <div class="pricing-table-body">
+                            <ul class="list-bordered">
+                                <li><p th:text="${DoctorInfoTwo.doc_title}">Free Consultation</p></li>
+                                <li><p th:text="${DoctorInfoTwo.doc_hospital}">Electrical Repair</p></li>
+                                <li><p th:text="${DoctorInfoTwo.doc_awards}">Annual Servicing</p></li>
+                                <li><p th:text="${DoctorInfoTwo.doc_details}">Plumber Services</p></li>
+                            </ul>
+                        </div>
+                        <div class="pricing-table-footer">
+                            <a class="btn btn-primary" th:href="@{'/doc/passDoc_name/'+${DoctorInfoTwo.doc_id}}"
+                               onmousedown="checkLogin()">在线提问</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alternative Plans-->
+    <section class="section-top-60 section-sm-top-90">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>内科</h5>
+                    <hr/>
+                </div>
+            </div>
+            <div
+                    class="row justify-content-md-center pricing-table-group offset-top-30 offset-lg-top-50"
+            >
+                <div class="col-md-6 col-xl-3" th:each="DoctorInfoThree:${docInfoThree}">
+                    <div class="pricing-table pricing-table-style-primary">
+                        <div class="pricing-table-header">
+                            <h6 class="pricing-table-heading" th:text="${DoctorInfoThree.doc_name}">Ultimate</h6>
+                        </div>
+                        <div class="pricing-table-body">
+                            <ul class="list-bordered">
+                                <li><p th:text="${DoctorInfoThree.doc_title}">Free Consultation</p></li>
+                                <li><p th:text="${DoctorInfoThree.doc_hospital}">Electrical Repair</p></li>
+                                <li><p th:text="${DoctorInfoThree.doc_awards}">Annual Servicing</p></li>
+                                <li><p th:text="${DoctorInfoThree.doc_details}">Plumber Services</p></li>
+                            </ul>
+                        </div>
+                        <div class="pricing-table-footer">
+                            <a class="btn btn-primary" th:href="@{'/doc/passDoc_name/'+${DoctorInfoThree.doc_id}}"
+                               onmousedown="checkLogin()">在线提问</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Four Plans with Icons-->
+    <section class="section-60 section-sm-110">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h5>外科</h5>
+                    <hr/>
+                </div>
+            </div>
+            <div class="row justify-content-md-center offset-top-30">
+                <div class="col-md-6 col-xl-3" th:each="DoctorInfoFour:${docInfoFour}">
+                    <div class="pricing-table pricing-table-style-transparent">
+                        <div class="pricing-table-header">
+                            <h6 class="pricing-table-heading" th:text="${DoctorInfoFour.doc_name}">Ultimate</h6>
+                            <div class="divider divider-sm divider-primary"></div>
+                        </div>
+                        <div class="pricing-table-body">
+                            <ul class="list-bordered">
+                                <li><p th:text="${DoctorInfoFour.doc_title}">Free Consultation</p></li>
+                                <li><p th:text="${DoctorInfoFour.doc_hospital}">Electrical Repair</p></li>
+                                <li><p th:text="${DoctorInfoFour.doc_awards}">Annual Servicing</p></li>
+                                <li><p th:text="${DoctorInfoFour.doc_details}">Plumber Services</p></li>
+                            </ul>
+                        </div>
+                        <div class="pricing-table-footer">
+                            <a class="btn btn-primary" th:href="@{'/doc/passDoc_name/'+${DoctorInfoFour.doc_id}}"
+                               onmousedown="checkLogin()">在线提问</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+</div>
+<div class="preloader">
+    <div th:replace="menu::myloading"></div>
+</div>
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

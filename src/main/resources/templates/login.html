@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Site Title-->
+    <title>故事化资讯网站登录页面</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <style>
+        .my-login-box {
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            -moz-box-shadow: 1px 0px 8px 0px #ADAAB5;
+            -webkit-box-shadow: 1px 0px 8px 0px #ADAAB5;
+            box-shadow: 1px 0px 8px 0px #ADAAB5;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body
+        style="
+      background: #eff5f6 url(/images/bcg.jpg) no-repeat;
+      background-size: cover;
+      -webkit-background-size: cover;
+      -o-background-size: cover;
+    "
+>
+<!-- Page-->
+<div class="page">
+    <!-- Responsive-tabs-->
+
+    <div class="container">
+        <div class="row justify-content-md-end">
+            <!-- 想要的东西 -->
+            <div class="col-md-8 col-sm-offset-2 offset-top-25 offset-sm-top-30">
+                <div class="offset-top-55 offset-sm-top-88">
+                    <div class="col-sm-6 my-login-box">
+                        <h5 class="centered">登录</h5>
+                        <hr/>
+                        <!-- RD Mailform-->
+                        <form
+                                method="post"
+                                action="/user/login"
+                        >
+                            <div class="">
+                                <div class="form-wrap">
+                                    <input
+                                            class="form-input"
+                                            type="text"
+                                            name="user_name"
+                                            placeholder="用户名"
+                                            data-constraints="@Required"
+                                            style="width: 100%"
+                                    />
+                                </div>
+                            </div>
+                            <div class="offset-top-18 offset-md-top-18">
+                                <div class="form-wrap">
+                                    <input
+                                            class="form-input"
+                                            type="password"
+                                            name="password"
+                                            placeholder="密码"
+                                            data-constraints="@Required"
+                                            style="width: 100%"
+                                    />
+                                </div>
+                            </div>
+                            <div class="offset-top-18 offset-md-top-18">
+                                <div class="form-wrap">
+                                    <label>
+                                        <input
+                                                class="radio-inline"
+                                                type="radio"
+                                                name="power"
+                                                id="inlineRadio2"
+                                                value="1"
+                                                style="margin-right: 3px"
+                                        />管理员
+                                    </label>
+                                    <label style="margin-left: 6px">
+                                        <input
+                                                class="radio-inline" checked
+                                                type="radio"
+                                                name="power"
+                                                id="inlineRadio3"
+                                                value="2"
+                                                style="margin-right: 3px"
+                                        />普通用户
+                                    </label>
+                                    <div class="pull-right">
+                                        <a href="/user/reset-password" class="a-link">
+                                            <i class="fa fa-unlock-alt"></i> 忘记密码?
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="offset-top-18">
+                                <button class="btn btn-primary col-md-12" type="submit">
+                                    登录
+                                </button>
+                            </div>
+                        </form>
+                        <div
+                                class="offset-top-18 offset-md-top-18"
+                                style="margin-bottom: -10px"
+                        >
+                            <div class="form-wrap">
+                                <div class="form-group text-center">
+                                    还没有账号? <a th:href="@{/user/add}">注册！</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 想要的东西结束了 -->
+        </div>
+    </div>
+    <div class="preloader">
+        <div class="preloader-body">
+            <div class="preloader-loading">
+                <p>Loading</p>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Javascript-->
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>

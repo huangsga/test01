@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/health_info?serverTimezone=GMT%2B8
+    username: root
+    password: 1234
+  mvc:
+    date-format: yyyy-MM-dd
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    servlet:
+      content-type: text/html; charset=utf-8
+
+  pagehelper:
+                    helper-dialect: mysql
+                    reasonable: true
+                    support-methods-arguments: true
+                    params: count==countSql
+                    page-size-zero: true
+  jpa:
+    show-sql: true

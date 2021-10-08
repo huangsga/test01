@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Site Title-->
+    <title>故事化资讯网站首页</title>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8"/>
+    <script src="/cdn-cgi/apps/head/3ts2ksMwXvKRuG480KNifJ2_JNM.js"></script>
+    <script src="/js/myScript.js"></script>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <!-- Stylesheets-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,600italic,900"
+    />
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <script th:inline="javascript">
+        window.onload = function () {
+            showTime();
+            var checkName = [[${userLoginUserName}]]; // 即可获取model TODO:获取session
+            console.log("checkName ==> " + checkName)
+            if (checkName != null) {
+                $("#btnLogin").attr("style", "display:none;");//隐藏登录
+                $("#btnLogout").attr("style", "display:block;");//显示退出
+            } else {
+                $("#btnLogout").attr("style", "display:none;");//隐藏退出
+                $("#btnLogin").attr("style", "display:block;");//显示登录
+            }
+        }
+
+        function showTime() {
+            var myDate = new Date();
+            var year = myDate.getFullYear();
+            var month = myDate.getMonth() + 1;
+            var date = myDate.getDate();
+            var dateArr = ["日", "一", '二', '三', '四', '五', '六'];
+            var day = myDate.getDay();
+            var hours = myDate.getHours();
+            var minutes = formatTime(myDate.getMinutes());
+            var seconds = formatTime(myDate.getSeconds());
+            var systemTime = document.getElementById("time");
+            systemTime.innerHTML = " " + year + "年" + month + "月" + date + "日" + " 星期" + dateArr[day] + " " + hours + ":" + minutes + ":" + seconds;
+            setTimeout("showTime()", 500);
+        }
+
+        //格式化时间：分秒。
+        function formatTime(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+    </script>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //获取城市ajax
+            $.ajax({
+                url:
+                    "http://api.map.baidu.com/location/ip?ak=ia6HfFL660Bvh43exmH9LrI6",
+                type: "POST",
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                    $("#city").html(
+                        JSON.stringify(
+                            data.content.address_detail.province +
+                            "," +
+                            data.content.address_detail.city
+                        )
+                    );
+                },
+            });
+            //获取ip ajax
+            $.ajax({
+                url: "http://freegeoip.net/json/",
+                success: function (data) {
+                    console.log(JSON.stringify(data.ip));
+                    $("#ip").html(JSON.stringify(data.ip));
+                },
+                type: "GET",
+                dataType: "JSON",
+            });
+        });
+    </script>
+</head>
+<body>
+<!-- Page-->
+<div class="page">
+    <!-- Page Header-->
+    <header class="page-head">
+        <div th:replace="menu::mybar"></div>
+    </header>
+    <!-- Page Content-->
+    <!-- Swiper-->
+    <div class="swiper-container swiper-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <img
+                        src="/images/1.jpg"
+                        alt=""
+                        width="1920"
+                        height="600"
+                />
+                <div class="swiper-slide-caption">
+                    <div class="container text-center text-md-left">
+                        <div class="row">
+                            <div class="col-md-8 col-lg-8 col-xl-9">
+                                <h2>冬春新冠疫情如何防控？专家来支招</h2>
+                                <div class="swiper-slide-text">
+                                    <h5 class="text-style-1">
+                                        “随着冬春季节来临，气温的降低将更有利于新冠病毒等传染病的传播。”自治区综合疾病预防控制中心副主任王友信日前表示......
+                                    </h5>
+                                </div>
+                                <div class="offset-top-35">
+                                    <a
+                                            class="btn btn-primary btn-mod-1"
+                                            th:href="@{/xinguan/zhuanti1}"
+                                    >查看更多</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <img
+                        src="/images/3.jpg"
+                        alt=""
+                        width="1920"
+                        height="600"
+                />
+                <div class="swiper-slide-caption">
+                    <div class="container text-center text-md-left">
+                        <div class="row">
+                            <div class="col-md-8 col-lg-8 col-xl-7">
+                                <h2>全球疫情简报：世卫组织警告大多数人仍易感染新冠病毒 英国开始新冠疫苗接种</h2>
+                                <div class="swiper-slide-text">
+                                    <h5 class="text-style-1">
+                                        新华社北京12月9日电8日全球疫情简报：世卫组织警告大多数人仍易感染新冠病毒 英国开始新冠疫苗接种......
+                                    </h5>
+                                </div>
+                                <div class="offset-top-35 offset-sm-top-65">
+                                    <a
+                                            class="btn btn-primary btn-mod-1"
+                                            th:href="@{/xinguan/zhuanti1}"
+                                    >查看更多</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <img
+                        src="/images/4.jpg"
+                        alt=""
+                        width="1920"
+                        height="600"
+                />
+                <div class="swiper-slide-caption">
+                    <div class="container text-center text-md-left">
+                        <div class="row">
+                            <div class="col-md-8 col-lg-8 col-xl-7">
+                                <h2>“2020年度涉新冠肺炎疫情防控辟谣榜”正式发布</h2>
+                                <div class="swiper-slide-text">
+                                    <h5 class="text-style-1">
+                                        新华社济南12月7日电（记者张昕怡）2020中国网络诚信大会7日在山东曲阜举行。中国互联网联合辟谣平台在大会上发布了“2020年度涉新冠肺炎疫情防控辟谣榜”......
+                                    </h5>
+                                </div>
+                                <div class="offset-top-35">
+                                    <a
+                                            class="btn btn-primary btn-mod-1"
+                                            th:href="@{/xinguan/zhuanti1}"
+                                    >查看更多</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Swiper Pagination-->
+        <div class="swiper-pagination-wrap">
+            <div class="container">
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Services，人体机理-->
+    <section>
+        <div class="section-60 section-sm-110 bg-light">
+            <div class="bg-light-element"></div>
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>身体机理</h2>
+                        <p class="big text-dark">人是世界上最复杂且高级的生物！</p>
+                        <p class="big text-dark">人的一生，就是一个故事。
+                            细胞更新换代，今天的你也不是昨天的你。
+                            而这故事，是你，也是这些系统组织组成......</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-60 section-sm-110">
+            <div class="container container-wide container-1 container-mod-1">
+                <div class="row">
+                    <!-- Slick Carousel-->
+                    <div
+                            class="slick-slider slick-slider-style-1"
+                            data-arrows="true"
+                            data-loop="true"
+                            data-dots="false"
+                            data-swipe="true"
+                            data-items="1"
+                            data-xs-items="2"
+                            data-md-items="3"
+                            data-lg-items="3"
+                            data-xl-items="4"
+                            data-xxl-items="6"
+                            data-slide-to-scroll="1"
+                            data-mobile-center-mode="true"
+                            data-sm-center-mode="false"
+                            data-center-padding="30px"
+                            data-sm-center-padding="0.5"
+                    >
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/01.jpeg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5><a th:href="@{/body/ch}">神经系统</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/02.jpeg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5><a th:href="@{/body/ch}">消化系统</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/03.jpg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5><a th:href="@{/body/ch}">运动系统</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/04.jpg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5>
+                                            <a th:href="@{/body/ch}">呼吸系统</a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/05.jpg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5><a th:href="@{/body/ch}">泌尿系统</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/06.jpg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5><a th:href="@{/body/ch}">生殖系统</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/07.jpg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5><a th:href="@{/body/ch}">循环系统</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item height-fill">
+                            <div class="product">
+                                <a class="product-image" th:href="@{/body/ch}"
+                                ><img
+                                        src="/images/08.jpg"
+                                        alt=""
+                                        width="101"
+                                        height="100"
+                                /></a>
+                                <div class="product-caption">
+                                    <div class="divider divider-sm divider-primary"></div>
+                                    <div class="product-title">
+                                        <h5><a th:href="@{/body/ch}">内分泌系统</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Blog Posts，年龄阶段-->
+    <section class="section-60 section-sm-110 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2>年龄阶段</h2>
+                    <div class="divider divider-md divider-primary"></div>
+                </div>
+            </div>
+            <div class="isotope-wrap offset-top-35 offset-md-top-55">
+                <div
+                        class="row isotope isotope-spacing-1"
+                        data-isotope-layout="masonry"
+                >
+                    <div class="col-sm-6 col-md-3 isotope-item">
+                        <article class="post post-variant-1">
+                            <figure class="post-image">
+                                <a class="post-image-link" th:href="@{/stu/sc}"
+                                ><img
+                                        src="/images/婴幼儿.jpg"
+                                        alt=""
+                                        width="370"
+                                        height="247"
+                                /></a>
+                            </figure>
+                            <div class="post-body">
+                                <div class="post-header">
+                                    <h6>
+                                        <a th:href="@{/stu/sc}">婴幼儿时期</a>
+                                    </h6>
+                                </div>
+                                <div class="post-meta">
+                                    <time datetime="2020-03-05"
+                                    >0-10岁
+                                    </time
+                                    >
+                                </div>
+                                <div class="post-text">
+                                </div>
+                                <div class="post-footer">
+                                    <ul class="list-tags-variant-1">
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-sm-6 col-md-3 isotope-item">
+                        <article class="post post-variant-1">
+                            <figure class="post-image">
+                                <a class="post-image-link" th:href="@{/stu/st}"
+                                ><img
+                                        src="/images/青少年.jpg"
+                                        alt=""
+                                        width="370"
+                                        height="247"
+                                /></a>
+                            </figure>
+                            <div class="post-body">
+                                <div class="post-header">
+                                    <h6>
+                                        <a th:href="@{/stu/st}"
+                                        >青少年时期</a>
+                                    </h6>
+                                </div>
+                                <div class="post-meta">
+                                    <time datetime="2020-03-05"
+                                    >10-30岁
+                                    </time
+                                    >
+                                </div>
+                                <div class="post-text">
+                                </div>
+                                <div class="post-footer">
+                                    <ul class="list-tags-variant-1">
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-sm-6 col-md-3 isotope-item">
+                        <article class="post post-variant-1">
+                            <figure class="post-image">
+                                <a class="post-image-link" th:href="@{/stu/sm}"
+                                ><img
+                                        src="/images/中年.jpg"
+                                        alt=""
+                                        width="370"
+                                        height="247"
+                                /></a>
+                            </figure>
+                            <div class="post-body">
+                                <div class="post-header">
+                                    <h6>
+                                        <a th:href="@{/stu/sm}"
+                                        >中年时期</a
+                                        >
+                                    </h6>
+                                </div>
+                                <div class="post-meta">
+                                    <time datetime="2020-03-05"
+                                    >30-60岁
+                                    </time
+                                    >
+                                </div>
+                                <div class="post-text">
+                                </div>
+                                <div class="post-footer">
+                                    <ul class="list-tags-variant-1">
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-sm-6 col-md-3 isotope-item">
+                        <article class="post post-variant-1">
+                            <figure class="post-image">
+                                <a class="post-image-link" th:href="@{/stu/so}"
+                                ><img
+                                        src="/images/老年.jpg"
+                                        alt=""
+                                        width="370"
+                                        height="247"
+                                /></a>
+                            </figure>
+                            <div class="post-body">
+                                <div class="post-header">
+                                    <h6>
+                                        <a th:href="@{/stu/so}">老年时期</a>
+                                    </h6>
+                                </div>
+                                <div class="post-meta">
+                                    <time datetime="2020-03-05"
+                                    >60-100岁
+                                    </time
+                                    >
+                                </div>
+                                <div class="post-text">
+                                </div>
+                                <div class="post-footer">
+                                    <ul class="list-tags-variant-1">
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Happy Customer Testimonials，专家资源-->
+    <section class="section-60 section-sm-top-110 section-sm-bottom-100">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h2>专家资源</h2>
+                    <div class="divider divider-md divider-primary"></div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Owl Carousel-->
+                <div
+                        class="owl-carousel"
+                        data-autoplay="true"
+                        data-items="1"
+                        data-md-items="2"
+                        data-lg-items="3"
+                        data-stage-padding="15"
+                        data-loop="true"
+                        data-margin="30"
+                        data-nav="false"
+                        data-dots="true"
+                        data-dots-each="1"
+                >
+                    <div class="item">
+                        <blockquote class="quote-variant-1">
+                            <div class="quote-meta">
+                                <div
+                                        class="unit unit-spacing-xs align-items-center flex-row"
+                                >
+                                    <div class="unit-left">
+                                        <figure class="quote-image">
+                                            <img
+                                                    src="#"
+                                                    alt=""
+                                                    width="47"
+                                                    height="47"
+                                            />
+                                        </figure>
+                                    </div>
+                                    <div class="unit-body">
+                                        <cite>钟南山</cite>
+                                        <p class="small">工程院院士</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quote-body">
+                                <p>
+                                    <q>
+                                        擅长：哮喘、慢性阻塞性肺病、慢性咳嗽、间质性肺炎等呼吸道疑难杂症。
+                                    </q>
+                                </p>
+                            </div>
+                        </blockquote>
+                    </div>
+                    <div class="item">
+                        <blockquote class="quote-variant-1">
+                            <div class="quote-meta">
+                                <div
+                                        class="unit unit-spacing-xs align-items-center flex-row"
+                                >
+                                    <div class="unit-left">
+                                        <figure class="quote-image">
+                                            <img
+                                                    src="#"
+                                                    alt=""
+                                                    width="47"
+                                                    height="47"
+                                            />
+                                        </figure>
+                                    </div>
+                                    <div class="unit-body">
+                                        <cite>葛均波</cite>
+                                        <p class="small">中科院院士</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quote-body">
+                                <p>
+                                    <q>
+                                        擅长：冠心病病人心肌微循环灌注障碍方面的研究
+                                    </q>
+                                </p>
+                            </div>
+                        </blockquote>
+                    </div>
+                    <div class="item">
+                        <blockquote class="quote-variant-1">
+                            <div class="quote-meta">
+                                <div
+                                        class="unit unit-spacing-xs align-items-center flex-row"
+                                >
+                                    <div class="unit-left">
+                                        <figure class="quote-image">
+                                            <img
+                                                    src="#"
+                                                    alt=""
+                                                    width="47"
+                                                    height="47"
+                                            />
+                                        </figure>
+                                    </div>
+                                    <div class="unit-body">
+                                        <cite>郑树森</cite>
+                                        <p class="small">工程院院士</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quote-body">
+                                <p>
+                                    <q
+                                    >擅长：肝癌的手术及综合治疗方面，胰腺癌扩大根治及重症坏死性胰腺炎治疗，腹腔镜在腹部外科的应用、器官移植、多器官联合移植</q
+                                    >
+                                </p>
+                            </div>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Footer-->
+    <footer class="page-foot bg-gray-dark">
+        <div th:replace="menu::myfooter"></div>
+    </footer>
+</div>
+
+<div class="preloader">
+    <div th:replace="menu::myloading"></div>
+</div>
+
+<!-- Javascript-->
+<script src="/js/core.min.js"></script>
+<script src="/js/script.js"></script>
+</body>
+</html>
